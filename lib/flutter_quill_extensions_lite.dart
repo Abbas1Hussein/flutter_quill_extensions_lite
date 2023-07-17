@@ -9,7 +9,7 @@ import 'src/toolbar/image_button.dart';
 import 'src/utils/index.dart';
 
 export 'src/toolbar/image_button.dart';
-export 'src/toolbar/image_utils.dart';
+export 'src/utils/image_utils.dart';
 export 'src/utils/index.dart';
 
 class FlutterQuillEmbeds {

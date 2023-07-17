@@ -5,7 +5,7 @@ import 'package:flutter_quill/translations.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../utils/index.dart';
-import 'image_utils.dart';
+import '../utils/image_utils.dart';
 
 class ImageToolbarButton extends StatelessWidget {
   const ImageToolbarButton({
@@ -56,7 +56,7 @@ class ImageToolbarButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-      final selector = mediaPickSettingSelector ?? ImageUtils.defaultSelectMediaPickSetting;
+      final selector = mediaPickSettingSelector ?? ImageUtils.selectMediaPickView;
       await selector(context).then(
         (source) {
           if (source != null) {
