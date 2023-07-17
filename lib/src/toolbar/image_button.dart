@@ -4,15 +4,14 @@ import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../utils/types.dart';
+import '../utils/index.dart';
 import 'image_utils.dart';
 
-class ImageButton extends StatelessWidget {
-  const ImageButton({
+class ImageToolbarButton extends StatelessWidget {
+  const ImageToolbarButton({
     required this.icon,
     required this.controller,
     this.iconSize = kDefaultIconSize,
-    this.onImagePickCallback,
     this.fillColor,
     this.mediaPickSettingSelector,
     this.iconTheme,
@@ -29,8 +28,6 @@ class ImageButton extends StatelessWidget {
 
   final QuillController controller;
 
-  final OnImagePickCallback? onImagePickCallback;
-
   final MediaPickSettingSelector? mediaPickSettingSelector;
 
   final QuillIconTheme? iconTheme;
@@ -44,8 +41,7 @@ class ImageButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final iconFillColor =
-        iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
+    final iconFillColor = iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
 
     return QuillIconButton(
       icon: Icon(icon, size: iconSize, color: iconColor),
@@ -60,8 +56,7 @@ class ImageButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    if (onImagePickCallback != null) {
-      final selector = mediaPickSettingSelector ?? ImageUtils.selectMediaPickSetting;
+      final selector = mediaPickSettingSelector ?? ImageUtils.defaultSelectMediaPickSetting;
       await selector(context).then(
         (source) {
           if (source != null) {
@@ -73,9 +68,7 @@ class ImageButton extends StatelessWidget {
           }
         },
       );
-    } else {
-      _typeLink(context);
-    }
+
   }
 
   void _pickImage(BuildContext context) {
@@ -85,7 +78,7 @@ class ImageButton extends StatelessWidget {
   void _typeLink(BuildContext context) {
     showDialog<String>(
       context: context,
-      builder: (_) => LinkDialog(dialogTheme: dialogTheme),
+      builder: (_) => LinkToolbarDialog(dialogTheme: dialogTheme),
     ).then(_linkSubmitted);
   }
 
@@ -99,8 +92,8 @@ class ImageButton extends StatelessWidget {
   }
 }
 
-class LinkDialog extends StatefulWidget {
-  const LinkDialog({
+class LinkToolbarDialog extends StatefulWidget {
+  const LinkToolbarDialog({
     this.dialogTheme,
     this.link,
     Key? key,
@@ -110,10 +103,10 @@ class LinkDialog extends StatefulWidget {
   final String? link;
 
   @override
-  LinkDialogState createState() => LinkDialogState();
+  LinkToolbarDialogState createState() => LinkToolbarDialogState();
 }
 
-class LinkDialogState extends State<LinkDialog> {
+class LinkToolbarDialogState extends State<LinkToolbarDialog> {
   late String _link;
   late TextEditingController _controller;
 

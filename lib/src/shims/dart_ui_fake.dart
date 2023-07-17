@@ -23,3 +23,6 @@ class platformViewRegistry {
 class webOnlyAssetManager {
   static dynamic getAssetUrl(String asset) {}
 }
+
+t (){
+}

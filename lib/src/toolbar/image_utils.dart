@@ -3,12 +3,13 @@ import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../utils/types.dart';
+import '../utils/enum.dart';
 
 class ImageUtils {
-  static Future<MediaPickSetting?> selectMediaPickSetting(
+  static Future<MediaPickSetting?> defaultSelectMediaPickSetting(
     BuildContext context,
-  ) => showDialog<MediaPickSetting>(
+  ) =>
+      showDialog<MediaPickSetting>(
         context: context,
         builder: (ctx) => AlertDialog(
           contentPadding: EdgeInsets.zero,
