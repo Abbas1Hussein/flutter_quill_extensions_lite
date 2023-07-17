@@ -93,8 +93,7 @@ class _ImageResizerState extends State<ImageResizer> {
   }
 
   Widget _heightSlider() {
-    return _slider(
-        _height, widget.maxHeight, 'Height', (value) => _height = value);
+    return _slider(_height, widget.maxHeight, 'Height', (value) => _height = value);
   }
 
   Widget _widthSlider() {

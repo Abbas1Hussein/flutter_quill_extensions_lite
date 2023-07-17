@@ -5,13 +5,10 @@ import 'package:flutter_quill/extensions.dart' as base;
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
 import 'package:gallery_saver/gallery_saver.dart';
-import 'package:universal_html/html.dart' as html;
 
-import '../shims/dart_ui_fake.dart'
-    if (dart.library.html) '../shims/dart_ui_real.dart' as ui;
-import 'utils.dart';
-import 'widgets/image.dart';
-import 'widgets/image_resizer.dart';
+import '../../utils/validator.dart';
+import '../view/image.dart';
+import '../view/image_resizer.dart';
 
 class ImageEmbedBuilder extends EmbedBuilder {
   @override
@@ -80,25 +77,26 @@ class ImageEmbedBuilder extends EmbedBuilder {
                   onPressed: () {
                     Navigator.pop(context);
                     showCupertinoModalPopup<void>(
-                        context: context,
-                        builder: (context) {
-                          final _screenSize = MediaQuery.of(context).size;
-                          return ImageResizer(
-                              onImageResize: (w, h) {
-                                final res = getEmbedNode(
-                                    controller, controller.selection.start);
-                                final attr = base.replaceStyleString(
-                                    getImageStyleString(controller), w, h);
-                                controller
-                                  ..skipRequestKeyboard = true
-                                  ..formatText(
-                                      res.offset, 1, StyleAttribute(attr));
-                              },
-                              imageWidth: _imageSize?.width,
-                              imageHeight: _imageSize?.height,
-                              maxWidth: _screenSize.width,
-                              maxHeight: _screenSize.height);
-                        });
+                      context: context,
+                      builder: (context) {
+                        final _screenSize = MediaQuery.of(context).size;
+                        return ImageResizer(
+                          onImageResize: (w, h) {
+                            final res = getEmbedNode(
+                                controller, controller.selection.start);
+                            final attr = base.replaceStyleString(
+                                getImageStyleString(controller), w, h);
+                            controller
+                              ..skipRequestKeyboard = true
+                              ..formatText(res.offset, 1, StyleAttribute(attr));
+                          },
+                          imageWidth: _imageSize?.width,
+                          imageHeight: _imageSize?.height,
+                          maxWidth: _screenSize.width,
+                          maxHeight: _screenSize.height,
+                        );
+                      },
+                    );
                   },
                 );
                 final copyOption = _SimpleDialogItem(
@@ -106,12 +104,15 @@ class ImageEmbedBuilder extends EmbedBuilder {
                   color: Colors.cyanAccent,
                   text: 'Copy'.i18n,
                   onPressed: () {
-                    final imageNode =
-                        getEmbedNode(controller, controller.selection.start)
-                            .value;
+                    final imageNode = getEmbedNode(
+                      controller,
+                      controller.selection.start,
+                    ).value;
                     final imageUrl = imageNode.value.data;
-                    controller.copiedImageUrl =
-                        ImageUrl(imageUrl, getImageStyleString(controller));
+                    controller.copiedImageUrl = ImageUrl(
+                      imageUrl,
+                      getImageStyleString(controller),
+                    );
                     Navigator.pop(context);
                   },
                 );
@@ -143,46 +144,12 @@ class ImageEmbedBuilder extends EmbedBuilder {
           child: image);
     }
 
-    if (!readOnly || !base.isMobile() || isImageBase64(imageUrl)) {
+    if (!readOnly || !base.isMobile() || Validator.isImageBase64(imageUrl)) {
       return image;
     }
 
     // We provide option menu for mobile platform excluding base64 image
     return _menuOptionsForReadonlyImage(context, imageUrl, image);
-  }
-}
-
-class ImageEmbedBuilderWeb extends EmbedBuilder {
-  ImageEmbedBuilderWeb({this.constraints})
-      : assert(kIsWeb, 'ImageEmbedBuilderWeb is only for web platform');
-
-  final BoxConstraints? constraints;
-
-  @override
-  String get key => BlockEmbed.imageType;
-
-  @override
-  Widget build(
-    BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
-  ) {
-    final imageUrl = node.value.data;
-
-    ui.platformViewRegistry.registerViewFactory(imageUrl, (viewId) {
-      return html.ImageElement()
-        ..src = imageUrl
-        ..style.height = 'auto'
-        ..style.width = 'auto';
-    });
-
-    return ConstrainedBox(
-      constraints: constraints ?? BoxConstraints.loose(const Size(200, 200)),
-      child: HtmlElementView(viewType: imageUrl),
-    );
   }
 }
 

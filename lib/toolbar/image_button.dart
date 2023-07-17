@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/extensions.dart';
+import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill/translations.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../embed_types.dart';
-import 'image_video_utils.dart';
+import '../utils/types.dart';
+import 'image_utils.dart';
 
 class ImageButton extends StatelessWidget {
   const ImageButton({
@@ -12,8 +14,6 @@ class ImageButton extends StatelessWidget {
     this.iconSize = kDefaultIconSize,
     this.onImagePickCallback,
     this.fillColor,
-    this.filePickImpl,
-    this.webImagePickImpl,
     this.mediaPickSettingSelector,
     this.iconTheme,
     this.dialogTheme,
@@ -22,6 +22,7 @@ class ImageButton extends StatelessWidget {
   }) : super(key: key);
 
   final IconData icon;
+
   final double iconSize;
 
   final Color? fillColor;
@@ -30,15 +31,12 @@ class ImageButton extends StatelessWidget {
 
   final OnImagePickCallback? onImagePickCallback;
 
-  final WebImagePickImpl? webImagePickImpl;
-
-  final FilePickImpl? filePickImpl;
-
   final MediaPickSettingSelector? mediaPickSettingSelector;
 
   final QuillIconTheme? iconTheme;
 
   final QuillDialogTheme? dialogTheme;
+
   final String? tooltip;
 
   @override
@@ -63,8 +61,7 @@ class ImageButton extends StatelessWidget {
 
   Future<void> _onPressedHandler(BuildContext context) async {
     if (onImagePickCallback != null) {
-      final selector =
-          mediaPickSettingSelector ?? ImageVideoUtils.selectMediaPickSetting;
+      final selector = mediaPickSettingSelector ?? ImageUtils.selectMediaPickSetting;
       await selector(context).then(
         (source) {
           if (source != null) {
@@ -81,14 +78,9 @@ class ImageButton extends StatelessWidget {
     }
   }
 
-  void _pickImage(BuildContext context) => ImageVideoUtils.handleImageButtonTap(
-        context,
-        controller,
-        ImageSource.gallery,
-        onImagePickCallback!,
-        filePickImpl: filePickImpl,
-        webImagePickImpl: webImagePickImpl,
-      );
+  void _pickImage(BuildContext context) {
+    ImageUtils.handleImageButtonTap(context, controller, ImageSource.gallery);
+  }
 
   void _typeLink(BuildContext context) {
     showDialog<String>(
@@ -105,4 +97,66 @@ class ImageButton extends StatelessWidget {
       controller.replaceText(index, length, BlockEmbed.image(value), null);
     }
   }
+}
+
+class LinkDialog extends StatefulWidget {
+  const LinkDialog({
+    this.dialogTheme,
+    this.link,
+    Key? key,
+  }) : super(key: key);
+
+  final QuillDialogTheme? dialogTheme;
+  final String? link;
+
+  @override
+  LinkDialogState createState() => LinkDialogState();
+}
+
+class LinkDialogState extends State<LinkDialog> {
+  late String _link;
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _link = widget.link ?? '';
+    _controller = TextEditingController(text: _link);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: widget.dialogTheme?.dialogBackgroundColor,
+      content: TextField(
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        style: widget.dialogTheme?.inputTextStyle,
+        decoration: InputDecoration(
+          labelText: 'Paste a link'.i18n,
+          labelStyle: widget.dialogTheme?.labelTextStyle,
+          floatingLabelStyle: widget.dialogTheme?.labelTextStyle,
+        ),
+        autofocus: true,
+        onChanged: _linkChanged,
+        controller: _controller,
+      ),
+      actions: [
+        TextButton(
+          onPressed: _link.isNotEmpty &&
+                  AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)
+              ? _applyLink
+              : null,
+          child: Text(
+            'Ok'.i18n,
+            style: widget.dialogTheme?.labelTextStyle,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _linkChanged(String value) => setState(() => _link = value);
+
+  void _applyLink() => Navigator.pop(context, _link.trim());
 }
