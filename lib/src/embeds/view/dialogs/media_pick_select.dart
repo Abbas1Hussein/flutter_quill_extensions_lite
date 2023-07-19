@@ -10,22 +10,25 @@ class MediaPickSelect extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      content: Row(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // get picture from gallery
-          TextButton.icon(
-            icon: const Icon(Icons.collections, color: Colors.orangeAccent),
-            label: Text('Gallery'.i18n),
-            onPressed: () => Navigator.pop(context, MediaPickSetting.gallery),
+          Expanded(
+            child: TextButton.icon(
+              icon: const Icon(Icons.collections, color: Colors.orangeAccent),
+              label: Text('Gallery'.i18n),
+              onPressed: () => Navigator.pop(context, MediaPickSetting.gallery),
+            ),
           ),
-          // get picture from url
-          TextButton.icon(
-            icon: const Icon(Icons.link, color: Colors.cyanAccent),
-            label: Text('Link'.i18n),
-            onPressed: () => Navigator.pop(context, MediaPickSetting.link),
-          )
+          const SizedBox(height: 8.0, child: VerticalDivider()),
+          Expanded(
+            child: TextButton.icon(
+              icon: const Icon(Icons.link, color: Colors.cyanAccent),
+              label: Text('Link'.i18n),
+              onPressed: () => Navigator.pop(context, MediaPickSetting.link),
+            ),
+          ),
         ],
       ),
     );

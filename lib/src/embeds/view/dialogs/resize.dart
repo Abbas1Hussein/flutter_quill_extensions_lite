@@ -4,7 +4,7 @@ import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
 
-import '../image.dart';
+import '../../../utils/image_utils.dart';
 import '../image_resizer.dart';
 import 'simple.dart';
 
@@ -35,17 +35,9 @@ class ResizeOption extends StatelessWidget {
           builder: (context) {
             return ImageResizer(
               onImageResize: (w, h) {
-                final res =
-                    getEmbedNode(controller, controller.selection.start);
-                final attr =
-                    replaceStyleString(getImageStyleString(controller), w, h);
-                controller
-                  ..skipRequestKeyboard = true
-                  ..formatText(
-                    res.offset,
-                    1,
-                    StyleAttribute(attr),
-                  );
+                final res = getEmbedNode(controller, controller.selection.start);
+                final attr = replaceStyleString(ImageUtils.getImageStyleString(controller), w, h);
+                controller..skipRequestKeyboard = true..formatText(res.offset, 1, StyleAttribute(attr));
               },
               imageWidth: width,
               imageHeight: height,

@@ -1,104 +1,79 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart' as base;
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill_extensions_lite/src/embeds/view/image/image.dart';
 
-import '../../utils/validator.dart';
-import '../view/dialogs/copy.dart';
-import '../view/dialogs/remove.dart';
-import '../view/dialogs/resize.dart';
-import '../view/image.dart';
+import '../../utils/image_utils.dart';
 
+/// This class is an implementation of the [EmbedBuilder] interface specific to
+/// rendering image embeds in the Quill editor. Here's a breakdown of the code:
+///
+/// The [build] method is overridden to define how the image embed should be rendered.
+/// An assertion is made to ensure that the code is not executed on the web platform.
+///
+/// The image URL is standardized using the standardizeImageUrl function from [ImageUtils].
+/// A variable image is declared to hold the image widget.
+///
+/// An OptionalSize variable imageSize is declared to hold the dimensions of the image.
+/// The style attribute is retrieved from the node and checked if it is present and the platform is mobile.
+///
+/// The image widget is wrapped with a AdaptiveImageView
+///
+/// * Overall, this class provides the necessary functionality to render and interact with image embeds in the Quill editor.
 class ImageEmbedBuilder extends EmbedBuilder {
   @override
   String get key => BlockEmbed.imageType;
 
   @override
-  bool get expanded => false;
-
-  @override
-  Widget build(
-    BuildContext context,
-    QuillController controller,
-    base.Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
-  ) {
+  Widget build(BuildContext context,
+      QuillController controller,
+      Embed node,
+      bool readOnly,
+      bool inline,
+      TextStyle textStyle,) {
     assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
 
-    var image;
-    final imageUrl = standardizeImageUrl(node.value.data);
+    final imageUrl = ImageUtils.standardizeImageUrl(node.value.data);
 
-    OptionalSize? imageSize;
-    final style = node.style.attributes['style'];
-    if (base.isMobile() && style != null) {
-      final _attrs = base.parseKeyValuePairs(style.value.toString(), {
-        Attribute.mobileWidth,
-        Attribute.mobileHeight,
-        Attribute.mobileMargin,
-        Attribute.mobileAlignment
+    Image image = ImageUtils.imageByUrl(imageUrl);
+
+
+    if (node.style.attributes.isNotEmpty) {
+      final atr =
+      parseKeyValuePairs(ImageUtils.getImageStyleString(controller), {
+        'width',
+        'height',
+        'margin',
+        'alignment',
       });
-      if (_attrs.isNotEmpty) {
-        assert(
-          _attrs[Attribute.mobileWidth] != null && _attrs[Attribute.mobileHeight] != null,
-          'mobileWidth and mobileHeight must be specified',
-        );
-        final w = double.parse(_attrs[Attribute.mobileWidth]!);
-        final h = double.parse(_attrs[Attribute.mobileHeight]!);
 
-        imageSize = OptionalSize(w, h);
-
-        final m = _attrs[Attribute.mobileMargin] == null ? 0.0 : double.parse(_attrs[Attribute.mobileMargin]!);
-        final a = base.getAlignment(_attrs[Attribute.mobileAlignment]);
-        image = Padding(
-          padding: EdgeInsets.all(m),
-          child: imageByUrl(imageUrl, width: w, height: h, alignment: a),
-        );
-      }
-    }
-
-    if (imageSize == null) {
-      image = imageByUrl(imageUrl);
-      imageSize = OptionalSize((image as Image).width, image.height);
-    }
-
-    /// mobile
-    if (!readOnly && base.isMobile()) {
-      return GestureDetector(
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
-                child: SimpleDialog(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  children: [
-                    ResizeOption(
-                      controller: controller,
-                      width: imageSize?.width,
-                      height: imageSize?.height,
-                    ),
-                    CopyOption(controller: controller),
-                    RemoveOption(controller: controller)
-                  ],
-                ),
-              );
-            },
-          );
-        },
-        child: image,
+      image = ImageUtils.imageByUrl(
+        imageUrl,
+        width: double.parse(atr['width']!),
+        height: double.parse(atr['height']!),
       );
     }
 
-    /// desktop
-    if (!readOnly || !base.isMobile() || Validator.isImageBase64(imageUrl)) {
-      return image;
-    }
-
-    return image;
+    return AdaptiveImageView(
+      controller: controller,
+      image: image,
+      imageUrl: imageUrl,
+    );
   }
+}
+
+bool _scheduled = false;
+
+void _resizeImage(VoidCallback callback) {
+  if (_scheduled) return;
+
+  _scheduled = true;
+  SchedulerBinding.instance.addPostFrameCallback(
+        (_) {
+      callback();
+      _scheduled = false;
+    },
+  );
 }

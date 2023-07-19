@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
 
-import '../image.dart';
+import '../../../utils/image_utils.dart';
 import 'simple.dart';
 
 class CopyOption extends StatelessWidget {
@@ -27,7 +27,7 @@ class CopyOption extends StatelessWidget {
         final imageUrl = imageNode.value.data;
         controller.copiedImageUrl = ImageUrl(
           imageUrl,
-          getImageStyleString(controller),
+          ImageUtils.getImageStyleString(controller),
         );
         Navigator.pop(context);
       },

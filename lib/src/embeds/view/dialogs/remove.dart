@@ -26,11 +26,7 @@ class RemoveOption extends StatelessWidget {
   }
 
   void _onPressedHandler() {
-    final offset = getEmbedNode(
-      controller,
-      controller.selection.start,
-    ).offset;
-    controller.replaceText(
-        offset, 1, '', TextSelection.collapsed(offset: offset));
+    final offset = getEmbedNode(controller, controller.selection.start).offset;
+    controller.replaceText(offset, 1, '', TextSelection.collapsed(offset: offset));
   }
 }

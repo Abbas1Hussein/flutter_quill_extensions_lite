@@ -37,13 +37,10 @@ class _ImageResizerState extends State<ImageResizer> {
 
   @override
   Widget build(BuildContext context) {
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.iOS:
-        return _showCupertinoMenu();
-      case TargetPlatform.android:
-        return _showMaterialMenu();
-      default:
-        throw 'Not supposed to be invoked for $defaultTargetPlatform';
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      return _showCupertinoMenu();
+    } else {
+      return _showMaterialMenu();
     }
   }
 
@@ -56,14 +53,8 @@ class _ImageResizerState extends State<ImageResizer> {
 
   Widget _showCupertinoMenu() {
     return CupertinoActionSheet(actions: [
-      CupertinoActionSheetAction(
-        onPressed: () {},
-        child: _widthSlider(),
-      ),
-      CupertinoActionSheetAction(
-        onPressed: () {},
-        child: _heightSlider(),
-      )
+      CupertinoActionSheetAction(onPressed: () {}, child: _widthSlider()),
+      CupertinoActionSheetAction(onPressed: () {}, child: _heightSlider())
     ]);
   }
 
@@ -93,7 +84,8 @@ class _ImageResizerState extends State<ImageResizer> {
   }
 
   Widget _heightSlider() {
-    return _slider(_height, widget.maxHeight, 'Height', (value) => _height = value);
+    return _slider(
+        _height, widget.maxHeight, 'Height', (value) => _height = value);
   }
 
   Widget _widthSlider() {
