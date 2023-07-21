@@ -1,29 +1,73 @@
 import 'package:flutter/material.dart';
 
-enum MediaPickSetting {
-  gallery,
-  link,
-}
+const _kSmallSize = Size(200, 200);
+const _kMediumSize = Size(800, 400);
+const _kLargeSize = Size(1200, 600);
 
-enum SizeClassification {
-  small,
-  medium,
-  large,
-  originalSize,
-}
+enum SizeClassification { small, medium, large, originalSize }
 
-extension SizeExtension on SizeClassification {
-  Size getSizeClassification(BuildContext context) {
-    final deviceSize = MediaQuery.sizeOf(context);
+
+extension SizeClassificationExtension on SizeClassification {
+  Size getSize() {
     switch (this) {
       case SizeClassification.small:
-        return Size(deviceSize.width * 0.2, deviceSize.height * 0.2);
+        return _kSmallSize;
       case SizeClassification.medium:
-        return Size(deviceSize.width / 2, deviceSize.height / 2);
+        return _kMediumSize;
       case SizeClassification.large:
-        return Size(deviceSize.width * 0.7, deviceSize.height * 0.7);
+        return _kLargeSize;
       case SizeClassification.originalSize:
         throw 'you can\'t handel originalSize her';
+    }
+  }
+
+  static SizeClassification getClassification(Size size) {
+    final width = size.width;
+    final height = size.height;
+
+    if (width == _kSmallSize.width && height == _kSmallSize.height) {
+      return SizeClassification.small;
+    }
+    if (width == _kMediumSize.width && height == _kMediumSize.height) {
+      return SizeClassification.medium;
+    }
+    if (width == _kLargeSize.width && height == _kLargeSize.height) {
+      return SizeClassification.large;
+    }
+    return SizeClassification.originalSize;
+  }
+}
+
+enum MediaPickSetting { gallery, link }
+
+enum AlignmentImage { center, right, left }
+
+extension AlignmentImageEx on AlignmentImage {
+  String get name {
+    switch (this) {
+      case AlignmentImage.center:
+        return 'center';
+      case AlignmentImage.left:
+        return 'left';
+      case AlignmentImage.right:
+        return 'right';
+    }
+  }
+
+  static AlignmentImage getAlignment(String alignment) {
+    return AlignmentImage.values.firstWhere(
+      (element) => element.name.contains(alignment),
+    );
+  }
+
+  AlignmentGeometry get alignmentGeometry {
+    switch (this) {
+      case AlignmentImage.center:
+        return Alignment.center;
+      case AlignmentImage.left:
+        return Alignment.centerLeft;
+      case AlignmentImage.right:
+        return Alignment.centerRight;
     }
   }
 }

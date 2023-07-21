@@ -2,38 +2,20 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import '../../flutter_quill_extensions_lite.dart';
-import '../embeds/view/dialogs/media_pick_select.dart';
+import 'quill_controller_utils.dart';
 
 class ImageUtils {
-  ImageUtils._();
+  final QuillControllerUtils _quillControllerUtils;
 
-  /// chose type MediaPickSetting get picture from [link] or [gallery]
-  static Future<MediaPickSetting?> selectMediaPickView(
-    BuildContext context,
-  ) {
-    return showDialog<MediaPickSetting>(
-      context: context,
-      builder: (ctx) => const MediaPickSelect(),
-    );
-  }
-
-  /// A list of supported image file extensions.
-  static const List<String> imageFileSupported = [
-    '.jpeg',
-    '.png',
-    '.jpg',
-    '.gif',
-    '.webp',
-    '.tif',
-    '.heic'
-  ];
+  ImageUtils(this._quillControllerUtils);
 
   /// Retrieves the style string of the currently selected image in the [controller].
-  static String getImageStyleString(QuillController controller) {
-    final String? s = controller
+  String getImageStyleString() {
+    final String? s = _quillControllerUtils.controller
         .getAllSelectionStyles()
         .firstWhere((s) => s.attributes.containsKey(Attribute.style.key),
             orElse: Style.new)
@@ -43,19 +25,19 @@ class ImageUtils {
   }
 
   /// Generates an Image widget based on the provided [imageUrl], [width], [height], and [alignment].
-  static Image imageByUrl(
-    String imageUrl, {
-    double? width,
-    double? height,
-    AlignmentGeometry alignment = Alignment.center,
-  }) {
+  Image imageByUrl(
+    String imageUrl, [
+    ImageAttributeModel? imageAttributeModel,
+  ]) {
+    final width = imageAttributeModel?.width.toDouble();
+    final height = imageAttributeModel?.height.toDouble();
+    final alignment = imageAttributeModel?.alignment.alignmentGeometry?? Alignment.center;
     if (Validator.isImageBase64(imageUrl)) {
       return Image.memory(
         base64.decode(imageUrl),
         width: width,
         height: height,
         alignment: alignment,
-        fit: BoxFit.cover,
       );
     }
 
@@ -65,7 +47,6 @@ class ImageUtils {
         width: width,
         height: height,
         alignment: alignment,
-        fit: BoxFit.cover,
       );
     }
     return Image.file(
@@ -73,27 +54,58 @@ class ImageUtils {
       width: width,
       height: height,
       alignment: alignment,
-      fit: BoxFit.cover,
     );
   }
 
-  /// Standardizes the provided image [url].
-  static String standardizeImageUrl(String url) {
-    if (url.contains('base64')) {
-      return url.split(',')[1];
-    }
-    return url;
+
+  void updateImageAttribute({
+    required ImageAttributeModel imageAttributeModel,
+  }) {
+    _quillControllerUtils.controller.document.format(
+      _quillControllerUtils.offset,
+      1,
+      imageAttributeModel.toStyleAttribute(),
+    );
   }
 
-  /// Appends the file extension to the provided image [url] if necessary.
-  static String appendFileExtensionToImageUrl(String url) {
-    final endsWithImageFileExtension = imageFileSupported.firstWhere(
-      (s) => url.toLowerCase().endsWith(s),
-      orElse: () => '',
+  ImageAttributeModel? fetchImageAttributeByString(String s) {
+    Map<String, String> atr = parseKeyValuePairs(s, {
+      'width',
+      'height',
+      'alignment',
+    });
+    if (atr.isEmpty) return null;
+
+    return ImageAttributeModel.fromJson(atr);
+  }
+
+  ImageAttributeModel? fetchImageAttributesByOffset() {
+    return fetchImageAttributeByString(getImageStyleString());
+  }
+}
+
+class ImageAttributeModel {
+  final int width;
+  final int height;
+  final AlignmentImage alignment;
+
+  ImageAttributeModel({
+    required this.width,
+    required this.height,
+    required this.alignment,
+  });
+
+  factory ImageAttributeModel.fromJson(Map<String, dynamic> json) {
+    return ImageAttributeModel(
+      height: int.parse(json['height']),
+      width: int.parse(json['width']),
+      alignment: AlignmentImageEx.getAlignment(json['alignment']),
     );
-    if (endsWithImageFileExtension.isNotEmpty) {
-      return url;
-    }
-    return url;
+  }
+
+  StyleAttribute toStyleAttribute() {
+    return StyleAttribute(
+      "width: $width; height: $height; alignment: ${alignment.name}",
+    );
   }
 }

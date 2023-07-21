@@ -1,13 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../embeds/custom/image.dart';
+import '../embeds/view/dialogs/media_pick_select.dart';
 import '../utils/image_utils.dart';
 import '../utils/index.dart';
+import '../utils/quill_controller_utils.dart';
 
 /// A button widget for adding images to the Quill editor toolbar.
 class ImageToolbarButton extends StatelessWidget {
@@ -27,7 +28,7 @@ class ImageToolbarButton extends StatelessWidget {
   final double iconSize;
   final Color? fillColor;
   final QuillController controller;
-  final MediaPickSettingSelector? mediaPickSettingSelector;
+  final MediaPickSetting? mediaPickSettingSelector;
   final QuillIconTheme? iconTheme;
   final QuillDialogTheme? dialogTheme;
   final String? tooltip;
@@ -53,49 +54,54 @@ class ImageToolbarButton extends StatelessWidget {
 
   /// Handles the button press event.
   Future<void> _onPressedHandler(BuildContext context) async {
-    final selector = mediaPickSettingSelector ?? ImageUtils.selectMediaPickView;
-    await selector(context).then(
-      (source) {
-        if (source != null) {
-          if (source == MediaPickSetting.gallery) {
-            _pickImage(context);
-          } else {
-            _typeLink(context);
+    if (mediaPickSettingSelector == null) {
+      const MediaPickSelect().show(context).then(
+        (source) {
+          if (source != null) {
+            if (source == MediaPickSetting.gallery) {
+              handleImageButtonTap(context, controller);
+            } else {
+              _typeLink(context);
+            }
           }
-        }
-      },
-    );
+        },
+      );
+    } else if (mediaPickSettingSelector == MediaPickSetting.gallery) {
+      handleImageButtonTap(context, controller);
+    } else {
+      _typeLink(context);
+    }
   }
 
-  /// Picks an image from the gallery.
-  void _pickImage(BuildContext context) => handleImageButtonTap(
-        context,
-        controller,
-      );
-
-  /// For image picking logic
+  /// For pickedImage logic
   Future<void> handleImageButtonTap(
     BuildContext context,
     QuillController controller,
   ) async {
-    final multiPickedImage = await ImagePicker().pickMultiImage();
-    if (multiPickedImage.isNotEmpty) {
-      // if we have only one image has selected added without name picture
-      if (multiPickedImage.length == 1) {
-        _insertToQuillEditor(BlockEmbed.image(multiPickedImage.first.path));
-      } else {
-        // added multiPickedPicture with name image
-        for (var pickedImage in multiPickedImage) {
-          _insertToQuillEditor('${pickedImage.name}\n');
-          _insertToQuillEditor(BlockEmbed.image(pickedImage.path));
-        }
-      }
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      final image = controller.utils.imageUtils.imageByUrl(pickedImage.path);
+      controller.utils.addValue(CustomImageEmbeddable(image));
+      _addImageAttributeByOffset(image);
     }
   }
 
-
-  // final bytes = (await pickedFile.readAsBytes());
-  // base64.encode(bytes)
+  void _addImageAttributeByOffset(Image image) {
+    image.image.resolve(const ImageConfiguration()).addListener(
+      ImageStreamListener(
+        (ImageInfo info, _) {
+          controller.utils.imageUtils.updateImageAttribute(
+            imageAttributeModel: ImageAttributeModel(
+              width: info.image.height,
+              height: info.image.width,
+              alignment: AlignmentImage.center,
+            ),
+          );
+        },
+      ),
+    );
+  }
 
   /// Opens a dialog to type a link.
   void _typeLink(BuildContext context) {
@@ -106,17 +112,12 @@ class ImageToolbarButton extends StatelessWidget {
   }
 
   /// Handles the submitted link from the dialog.
-  void _linkSubmitted(String? value) {
-    if (value != null && value.isNotEmpty) {
-      _insertToQuillEditor(BlockEmbed.image(value));
+  void _linkSubmitted(String? url) {
+    if (url != null && url.isNotEmpty) {
+      final image = controller.utils.imageUtils.imageByUrl(url);
+      controller.utils.addValue(CustomImageEmbeddable(image));
+      _addImageAttributeByOffset(image);
     }
-  }
-
-  /// add object to quill editor
-  void _insertToQuillEditor(Object object) {
-    final index = controller.selection.baseOffset;
-    final length = controller.selection.extentOffset - index;
-    controller.replaceText(index, length, object, null);
   }
 }
 
@@ -184,3 +185,32 @@ class LinkToolbarDialogState extends State<LinkToolbarDialog> {
   /// Applies the link and closes the dialog.
   void _applyLink() => Navigator.pop(context, _link.trim());
 }
+
+// in future
+/*
+  /// For multiPickedImage logic
+  Future<void> handleImageButtonTap(
+    BuildContext context,
+    QuillController controller,
+  ) async {
+    final multiPickedImage = await ImagePicker().pickMultiImage();
+    if (multiPickedImage.isNotEmpty) {
+      // if we have only one image has selected added without name picture
+      if (multiPickedImage.length == 1) {
+        final image = controller.utils.imageUtils.imageByUrl(
+          multiPickedImage.first.path,
+        );
+        controller.utils.addValue(CustomImageEmbeddable(image));
+        _addImageAttributeByOffset(image);
+      } else {
+        // added multiPickedPicture with name image
+        for (var pickedImage in multiPickedImage.reversed) {
+          final image = controller.utils.imageUtils.imageByUrl(pickedImage.path);
+          controller.utils.addValue('${pickedImage.name}\n');
+          controller.utils.addValue(CustomImageEmbeddable(image));
+          _addImageAttributeByOffset(image);
+        }
+      }
+    }
+  }
+ */

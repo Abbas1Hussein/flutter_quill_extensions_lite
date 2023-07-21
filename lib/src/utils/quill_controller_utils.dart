@@ -1,56 +1,38 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import '../../flutter_quill_extensions_lite.dart';
-import '../embeds/view/dialogs/media_pick_select.dart';
 
 class QuillControllerUtils {
-  QuillControllerUtils._();
+  final QuillController controller;
 
-  static int offset(QuillController controller) {
-    return getEmbedNode(controller, controller.selection.start).offset;
+  static QuillControllerUtils? _instance;
+
+  factory QuillControllerUtils._getInstance(QuillController controller) {
+    _instance ??= QuillControllerUtils._(controller);
+    return _instance!;
   }
 
-  static void removeValueByOffset(QuillController controller) {
+  QuillControllerUtils._(this.controller);
+
+  int get offset => getEmbedNode(controller, controller.selection.start).offset;
+
+  int get index => controller.selection.baseOffset;
+
+  int get length => controller.selection.extentOffset - index;
+
+  void removeValue() {
     controller.replaceText(
-      offset(controller),
-      1,
-      '',
-      TextSelection.collapsed(offset: offset(controller)),
-    );
+        offset, 1, '', TextSelection.collapsed(offset: offset));
   }
 
-  static void addValueByOffset(QuillController controller, Object value) {
-    final index = controller.selection.baseOffset;
-    final length = controller.selection.extentOffset - index;
+  void addValue(Object value) {
     controller.replaceText(index, length, value, null);
   }
 
-  static void updateImageAttribute({
-    required QuillController controller,
-    required double width,
-    required double height,
-    required double margin,
-    required Alignment alignment,
-  }) {
-    controller.document.format(
-      offset(controller),
-      1,
-      imageAttribute(width: width, height: height, alignment: alignment, margin: margin),
-    );
-  }
+  ImageUtils get imageUtils => ImageUtils(this);
+}
 
-  static StyleAttribute imageAttribute({
-    required double width,
-    required double height,
-    required double margin,
-    required Alignment alignment,
-  }) {
-    return StyleAttribute(
-      "width: $width; height: $height; margin: $margin; alignment: $alignment",
-    );
-  }
+extension QuillControllerUtilsExtension on QuillController {
+  QuillControllerUtils get utils => QuillControllerUtils._getInstance(this);
 }

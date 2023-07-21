@@ -2,6 +2,7 @@ package io.flutter.plugins;
 
 import io.flutter.plugin.common.PluginRegistry;
 
+
 /**
  * Generated file. Do not edit.
  */

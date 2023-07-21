@@ -3,6 +3,7 @@ import 'package:flutter_quill/translations.dart';
 
 import '../../../utils/enum.dart';
 
+/// chose type MediaPickSetting get picture from [link] or [gallery]
 class MediaPickSelect extends StatelessWidget {
   const MediaPickSelect({super.key});
 
@@ -32,5 +33,9 @@ class MediaPickSelect extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<MediaPickSetting?> show(BuildContext context) async {
+    return showDialog<MediaPickSetting>(context: context, builder: (ctx) => this);
   }
 }

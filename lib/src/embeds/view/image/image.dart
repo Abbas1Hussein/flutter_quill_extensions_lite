@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import 'desktop/image.dart';
-import 'mobile/image.dart';
+import '../dialogs/remove.dart';
+import 'menu/alignment_image.dart';
+import 'menu/size_image.dart';
 
-class AdaptiveImageView extends StatelessWidget {
+class ImageWrapper extends StatelessWidget {
   final QuillController controller;
   final Image image;
-  final String imageUrl;
 
-  const AdaptiveImageView({
-    super.key,
+  const ImageWrapper({
+    Key? key,
     required this.controller,
     required this.image,
-    required this.imageUrl,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (isMobile()) {
-      return MobileImageView(controller: controller, image: image);
-    } else {
-      return DesktopImageView(controller: controller, image: image, imageUrl: imageUrl);
-    }
+    return GestureDetector(
+      onLongPress: () {
+        FocusScope.of(context).unfocus();
+        showDialog(
+          context: context,
+          builder: (context) => SimpleDialog(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            ),
+            children: [
+              MenuPopupSizeImageClassification(
+                  controller: controller, image: image),
+              MenuPopupAlignmentImage(controller: controller, image: image),
+              RemoveOption(controller: controller),
+            ],
+          ),
+        );
+      },
+      child: image,
+    );
   }
 }
