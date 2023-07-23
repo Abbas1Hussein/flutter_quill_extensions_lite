@@ -1,2 +1,1 @@
-
 enum MediaPickSetting { gallery, link }

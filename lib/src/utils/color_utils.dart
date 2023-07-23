@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
+import 'index.dart';
+
+/// A utility class providing methods for handling colors and converting color codes.
 class ColorUtils {
+  /// Converts a hexadecimal color [hexString] to a [Color] object.
+  /// If [hexString] is null or invalid, returns the default color [Colors.black].
   static Color hexToColor(String? hexString) {
     if (hexString == null) {
       return Colors.black;
     }
 
     hexString = hexString.replaceAll('#', '');
-    if (!isHex(hexString)) return Colors.black;
+    if (!ValidatorUtils.isHex(hexString)) return Colors.black;
 
     final buffer = StringBuffer();
     if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
@@ -15,10 +20,8 @@ class ColorUtils {
     return Color(int.tryParse(buffer.toString(), radix: 16) ?? 0xFF000000);
   }
 
-  static bool isHex(String str) => _colorHex.hasMatch(str);
-
-  static final RegExp _colorHex = RegExp(r'([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$');
-
+  /// Converts a [Color] object to its hexadecimal representation.
+  /// Returns the hexadecimal color code as a string.
   static String colorToHex(Color color) {
     return color.value.toRadixString(16).padLeft(8, '0').toUpperCase();
   }

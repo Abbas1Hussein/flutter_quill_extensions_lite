@@ -77,6 +77,8 @@ The `flutter_quill_extensions_lite` package also exports the following component
 
 - `QuillControllerUtils`: A utility class extending QuillController to provide additional methods for text manipulation.
 
+- `ValidatorUtils`: A utility class providing methods for validating data, such as image URLs and color codes.
 
+- `ColorUtils`: A utility class providing methods for converting color codes to Color objects and vice versa.
 
 ```

@@ -7,6 +7,7 @@ import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import 'index.dart';
 
+/// A utility class providing methods for handling image attributes and embedding images.
 class ImageUtils {
   final QuillControllerUtils _quillControllerUtils;
 
@@ -23,7 +24,7 @@ class ImageUtils {
     return s ?? '';
   }
 
-  /// Generates an Image widget based on the provided [imageUrl], [width], [height], and [alignment].
+  /// Generates an [Image] widget based on the provided [imageUrl], [width], [height], and [alignment].
   Image imageByUrl(
     String imageUrl, [
     ImageAttributeModel? imageAttributeModel,
@@ -57,6 +58,7 @@ class ImageUtils {
     );
   }
 
+  /// Updates the image attributes of the currently selected image in the [controller].
   void updateImageAttribute({
     required ImageAttributeModel imageAttributeModel,
   }) {
@@ -67,6 +69,7 @@ class ImageUtils {
     );
   }
 
+  /// Parses the image attributes from the provided [s] string and returns an [ImageAttributeModel].
   ImageAttributeModel? fetchImageAttributeByString(String s) {
     Map<String, String> atr = parseKeyValuePairs(s, {
       'width',
@@ -78,11 +81,13 @@ class ImageUtils {
     return ImageAttributeModel.fromJson(atr);
   }
 
+  /// Fetches the image attributes of the currently selected image in the [controller].
   ImageAttributeModel? fetchImageAttributesByOffset() {
     return fetchImageAttributeByString(getImageStyleString());
   }
 }
 
+/// Model class representing image attributes like width, height, and alignment.
 class ImageAttributeModel {
   final int width;
   final int height;
@@ -94,6 +99,7 @@ class ImageAttributeModel {
     required this.alignment,
   });
 
+  /// Creates an [ImageAttributeModel] from a JSON map.
   factory ImageAttributeModel.fromJson(Map<String, dynamic> json) {
     return ImageAttributeModel(
       height: int.parse(json['height']),
@@ -102,6 +108,7 @@ class ImageAttributeModel {
     );
   }
 
+  /// Converts the [ImageAttributeModel] to a [StyleAttribute] object for formatting in the editor.
   StyleAttribute toStyleAttribute() {
     return StyleAttribute(
       "width: $width; height: $height; alignment: ${alignment.name}",

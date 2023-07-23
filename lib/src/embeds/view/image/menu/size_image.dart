@@ -22,8 +22,7 @@ class MenuPopupSizeImageClassification extends StatefulWidget {
       _MenuPopupSizeImageClassificationState();
 }
 
-class _MenuPopupSizeImageClassificationState
-    extends State<MenuPopupSizeImageClassification> {
+class _MenuPopupSizeImageClassificationState extends State<MenuPopupSizeImageClassification> {
   late QuillControllerUtils quillControllerUtils;
   late SizeClassification sizeClassification;
 
