@@ -86,21 +86,16 @@ and use flutter_quill:
   for text manipulation.
 
   Usage:
-
 ```dart
-
 final QuillController controller = QuillController();
 controller.utilts;
-
 ```
 
 - `ImageUtils`: A utility class providing methods for handling image attributes and embedding
   images.
 
   Usage:
-
 ```dart
-
 final QuillController controller = QuillController();
 controller.utilts.imageUtilts;
 ```
@@ -109,11 +104,8 @@ controller.utilts.imageUtilts;
   and vice versa.
 
   Usage:
-
 ```dart
-static Color hexToColor
-(
-String? hexString);
+static Color hexToColor(String? hexString);
 
 static String colorToHex(Color color);
 ```
