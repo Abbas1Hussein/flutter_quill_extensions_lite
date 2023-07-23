@@ -65,12 +65,12 @@ This method adds custom buttons to the Quill editor toolbar, such as the image a
 ```
 
 - `tooltips`: An optional parameter that allows you to customize tooltips for the buttons. It
-  provides `imageButtonTooltip` and `dividerButtonTooltip` to set tooltips for the image and divider
+  provides (imageButtonTooltip) and (dividerButtonTooltip) to set tooltips for the image and divider
   buttons, respectively.
 
 - `buttons`: An optional parameter that allows you to specify which buttons to display. By default,
   both the image and divider buttons are shown, but you can customize this behavior by
-  setting `showImageButton` and `showDividerButton` properties in the `Buttons` class.
+  setting (showImageButton) and (showDividerButton) properties in the Buttons class.
 
 - `mediaPickSettingSelector`: An optional parameter that allows you to customize media pick, when
   click image button get image from gallery or link.
@@ -102,20 +102,15 @@ controller.utilts;
 
 final QuillController controller = QuillController();
 controller.utilts.imageUtilts;
-
 ```
 
 - `ColorUtils`: A utility class providing static methods for converting color codes to Color objects
-  and vice versa.
+and vice versa.
 
-  Usage:
+ Usage:
 
 ```dart
-
 static Color hexToColor(String? hexString);
 
 static String colorToHex(Color color);
-
-```
-
 ```
