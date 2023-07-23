@@ -79,7 +79,7 @@ This method adds custom buttons to the Quill editor toolbar, such as the image a
 
 ## Exported Components
 
-The `flutter_quill_extensions_lite` package also exports the following components For easy addition
+The `flutter_quill_extensions_lite` package also exports the following components For easy access
 and use flutter_quill:
 
 - `QuillControllerUtils`: A utility class extending QuillController to provide additional methods
