@@ -10,7 +10,7 @@ import 'src/toolbar/image_button.dart';
 import 'src/utils/index.dart';
 
 export 'src/toolbar/image_button.dart';
-export 'src/utils/index.dart' hide ImageUtils;
+export 'src/utils/index.dart' hide ImageUtils, ValidatorUtils;
 
 class FlutterQuillEmbeds {
   static List<EmbedBuilder> builders() {
