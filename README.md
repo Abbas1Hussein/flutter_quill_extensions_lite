@@ -8,9 +8,8 @@ Flutter package to provide extras to `flutter_quill`.
 To use the `flutter_quill_extensions_lite` package, you need to add it as a dependency in
 your `pubspec.yaml`:
 
-```yaml
 dependencies:
-  flutter_quill_extensions_lite: ^1.0.0
+flutter_quill_extensions_lite: ^1.0.0
 
 ```
 
@@ -49,9 +48,11 @@ embedBuilders: FlutterQuillEmbeds.builders(),
 ### `FlutterQuillEmbeds`
 
 #### `builders()`
+
 Returns a list of embed builders to provide support for custom embeds.
 
 #### `buttons()`
+
 This method adds custom buttons to the Quill editor toolbar, such as the image and divider buttons.
 
 ```dart
@@ -81,8 +82,10 @@ This method adds custom buttons to the Quill editor toolbar, such as the image a
 The `flutter_quill_extensions_lite` package also exports the following components For easy access
 and use flutter_quill:
 
-- `QuillControllerUtils`: A utility class extending QuillController to provide additional methods for text manipulation.
-Usage:
+- `QuillControllerUtils`: A utility class extending QuillController to provide additional methods
+  for text manipulation.
+
+  Usage:
 
 ```dart
 
@@ -91,8 +94,10 @@ controller.utilts;
 
 ```
 
-- `ImageUtils`: A utility class providing methods for handling image attributes and embedding images.
-Usage:
+- `ImageUtils`: A utility class providing methods for handling image attributes and embedding
+  images.
+
+  Usage:
 
 ```dart
 
@@ -102,7 +107,8 @@ controller.utilts.imageUtilts;
 
 - `ColorUtils`: A utility class providing static methods for converting color codes to Color objects
   and vice versa.
-Usage:
+
+  Usage:
 
 ```dart
 static Color hexToColor
