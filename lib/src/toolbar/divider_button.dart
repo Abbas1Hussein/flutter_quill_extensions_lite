@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../../flutter_quill_extensions_lite.dart';
 import '../embeds/custom/divider.dart';
 import '../utils/quill_controller_utils.dart';
 

@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
-import 'package:flutter_quill_extensions_lite/src/embeds/custom/image.dart';
 
+import '../custom/image.dart';
 import '../view/image/image.dart';
 
 /// This class is an implementation of the [EmbedBuilder] interface specific
@@ -20,8 +19,6 @@ class ImageEmbedBuilder extends EmbedBuilder {
     bool inline,
     TextStyle textStyle,
   ) {
-    assert(!kIsWeb, 'Please provide image EmbedBuilder for Web');
-
-    return ImageWrapper(controller: controller, image: node.value.data);
+    return ImageWrapper(isReadOnly: readOnly, controller: controller, image: node.value.data);
   }
 }

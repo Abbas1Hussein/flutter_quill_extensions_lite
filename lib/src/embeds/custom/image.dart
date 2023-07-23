@@ -5,5 +5,8 @@ class CustomImageEmbeddable extends Embeddable {
   static const String imageType = 'image';
 
   CustomImageEmbeddable(Image data) : super(imageType, data);
-}
 
+  @override
+  Map<String, dynamic> toJson() => {type: data as Image};
+
+}

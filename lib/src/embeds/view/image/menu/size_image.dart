@@ -27,7 +27,10 @@ class _MenuPopupSizeImageClassificationState
   late QuillControllerUtils quillControllerUtils;
   late SizeClassification sizeClassification;
 
+  /// width of image
   late int width;
+
+  /// height of image
   late int height;
 
   @override
@@ -35,7 +38,8 @@ class _MenuPopupSizeImageClassificationState
     super.initState();
     resolveImage();
     quillControllerUtils = widget.controller.utils;
-    final attribute = quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
+    final attribute =
+        quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
     if (attribute != null) {
       sizeClassification = SizeClassificationExtension.getClassification(
         Size(attribute.width.toDouble(), attribute.height.toDouble()),
@@ -119,10 +123,7 @@ class _MenuPopupSizeImageClassificationState
           alignment: imageAttributeModel.alignment.alignmentGeometry,
         ),
       ),
-    );
-
-    quillControllerUtils.imageUtils.updateImageAttribute(
-      imageAttributeModel: imageAttributeModel,
+      imageAttributeModel.toStyleAttribute(),
     );
   }
 

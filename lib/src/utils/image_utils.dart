@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../../flutter_quill_extensions_lite.dart';
-import 'quill_controller_utils.dart';
+import 'index.dart';
 
 class ImageUtils {
   final QuillControllerUtils _quillControllerUtils;
@@ -31,7 +30,8 @@ class ImageUtils {
   ]) {
     final width = imageAttributeModel?.width.toDouble();
     final height = imageAttributeModel?.height.toDouble();
-    final alignment = imageAttributeModel?.alignment.alignmentGeometry?? Alignment.center;
+    final alignment =
+        imageAttributeModel?.alignment.alignmentGeometry ?? Alignment.center;
     if (Validator.isImageBase64(imageUrl)) {
       return Image.memory(
         base64.decode(imageUrl),
@@ -56,7 +56,6 @@ class ImageUtils {
       alignment: alignment,
     );
   }
-
 
   void updateImageAttribute({
     required ImageAttributeModel imageAttributeModel,

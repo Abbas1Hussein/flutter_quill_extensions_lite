@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../../flutter_quill_extensions_lite.dart';
+import 'image_utils.dart';
 
 class QuillControllerUtils {
   final QuillController controller;
@@ -22,12 +22,16 @@ class QuillControllerUtils {
   int get length => controller.selection.extentOffset - index;
 
   void removeValue() {
-    controller.replaceText(
-        offset, 1, '', TextSelection.collapsed(offset: offset));
+    controller.replaceText(offset, 1, '', TextSelection.collapsed(offset: offset));
   }
 
-  void addValue(Object value) {
+  void addValue(Object value, [Attribute<dynamic>? attribute]) {
     controller.replaceText(index, length, value, null);
+
+    // add attribute
+    if (attribute != null) {
+      controller.document.format(offset, 1, attribute);
+    }
   }
 
   ImageUtils get imageUtils => ImageUtils(this);

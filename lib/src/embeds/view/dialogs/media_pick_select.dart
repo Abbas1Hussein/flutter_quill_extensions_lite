@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/translations.dart';
 
-import '../../../utils/enum.dart';
+import '../../../utils/index.dart';
+
 
 /// chose type MediaPickSetting get picture from [link] or [gallery]
 class MediaPickSelect extends StatelessWidget {

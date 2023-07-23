@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 Color hexToColor(String? hexString) {
   if (hexString == null) {
     return Colors.black;

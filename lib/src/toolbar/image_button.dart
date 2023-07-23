@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
@@ -6,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../embeds/custom/image.dart';
 import '../embeds/view/dialogs/media_pick_select.dart';
-import '../utils/image_utils.dart';
 import '../utils/index.dart';
 import '../utils/quill_controller_utils.dart';
 
@@ -81,7 +83,12 @@ class ImageToolbarButton extends StatelessWidget {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      final image = controller.utils.imageUtils.imageByUrl(pickedImage.path);
+      final bytes = (await pickedImage.readAsBytes());
+
+      final image = controller.utils.imageUtils.imageByUrl(
+        kIsWeb ? base64.encode(bytes) : pickedImage.path,
+      );
+
       controller.utils.addValue(CustomImageEmbeddable(image));
       _addImageAttributeByOffset(image);
     }
@@ -185,32 +192,3 @@ class LinkToolbarDialogState extends State<LinkToolbarDialog> {
   /// Applies the link and closes the dialog.
   void _applyLink() => Navigator.pop(context, _link.trim());
 }
-
-// in future
-/*
-  /// For multiPickedImage logic
-  Future<void> handleImageButtonTap(
-    BuildContext context,
-    QuillController controller,
-  ) async {
-    final multiPickedImage = await ImagePicker().pickMultiImage();
-    if (multiPickedImage.isNotEmpty) {
-      // if we have only one image has selected added without name picture
-      if (multiPickedImage.length == 1) {
-        final image = controller.utils.imageUtils.imageByUrl(
-          multiPickedImage.first.path,
-        );
-        controller.utils.addValue(CustomImageEmbeddable(image));
-        _addImageAttributeByOffset(image);
-      } else {
-        // added multiPickedPicture with name image
-        for (var pickedImage in multiPickedImage.reversed) {
-          final image = controller.utils.imageUtils.imageByUrl(pickedImage.path);
-          controller.utils.addValue('${pickedImage.name}\n');
-          controller.utils.addValue(CustomImageEmbeddable(image));
-          _addImageAttributeByOffset(image);
-        }
-      }
-    }
-  }
- */

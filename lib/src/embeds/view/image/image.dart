@@ -6,6 +6,7 @@ import 'menu/alignment_image.dart';
 import 'menu/size_image.dart';
 
 class ImageWrapper extends StatelessWidget {
+  final bool isReadOnly;
   final QuillController controller;
   final Image image;
 
@@ -13,29 +14,34 @@ class ImageWrapper extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.image,
+    required this.isReadOnly,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () {
-        FocusScope.of(context).unfocus();
-        showDialog(
-          context: context,
-          builder: (context) => SimpleDialog(
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+    if (isReadOnly) {
+      return image;
+    } else {
+      return GestureDetector(
+        onLongPress: () {
+          FocusScope.of(context).unfocus();
+          showDialog(
+            context: context,
+            builder: (context) => SimpleDialog(
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              ),
+              children: [
+                MenuPopupSizeImageClassification(
+                    controller: controller, image: image),
+                MenuPopupAlignmentImage(controller: controller, image: image),
+                RemoveOption(controller: controller),
+              ],
             ),
-            children: [
-              MenuPopupSizeImageClassification(
-                  controller: controller, image: image),
-              MenuPopupAlignmentImage(controller: controller, image: image),
-              RemoveOption(controller: controller),
-            ],
-          ),
-        );
-      },
-      child: image,
-    );
+          );
+        },
+        child: image,
+      );
+    }
   }
 }

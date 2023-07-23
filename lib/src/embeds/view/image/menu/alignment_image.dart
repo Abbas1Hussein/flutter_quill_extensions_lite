@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../../../../../flutter_quill_extensions_lite.dart';
+import '../../../../utils/index.dart';
 import '../../../../utils/quill_controller_utils.dart';
 import '../../../custom/image.dart';
 import '../../dialogs/simple.dart';
@@ -83,7 +83,8 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
   }
 
   void _onTapHandler(AlignmentImage element) {
-    final attribute = quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
+    final attribute =
+        quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
 
     quillControllerUtils.removeValue();
     quillControllerUtils.addValue(
