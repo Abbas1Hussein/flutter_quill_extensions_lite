@@ -1,4 +1,4 @@
-class Validator {
+class ValidatorUtils {
   static bool isImageBase64(String imageUrl) {
     return !imageUrl.startsWith('http') && isBase64(imageUrl);
   }

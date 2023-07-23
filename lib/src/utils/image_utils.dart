@@ -32,7 +32,7 @@ class ImageUtils {
     final height = imageAttributeModel?.height.toDouble();
     final alignment =
         imageAttributeModel?.alignment.alignmentGeometry ?? Alignment.center;
-    if (Validator.isImageBase64(imageUrl)) {
+    if (ValidatorUtils.isImageBase64(imageUrl)) {
       return Image.memory(
         base64.decode(imageUrl),
         width: width,

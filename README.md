@@ -1,46 +1,82 @@
+```markdown
 # flutter_quill_extensions_lite
 
-<!--
-A Dart package for flutter quill,
--->
+![Flutter Quill Extensions Lite](https://your-image-url.com)
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Flutter package to provide extras to `flutter_quill`.
 
-![Preview](https://drive.google.com/file/d/1HMXbBuLv4mVZz_R1p1wc__8UORK56VHR/view?usp=drive_link)
+## Installation
 
+To use the `flutter_quill_extensions_lite` package, you need to add it as a dependency in your `pubspec.yaml`:
 
-## Features
+```yaml
+dependencies:
+  flutter_quill_extensions_lite: ^1.0.0
+```
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Then, run `flutter pub get` in your terminal to fetch the package.
 
 ## Usage
+
+import the required packages and call the `FlutterQuillEmbeds` class to add custom embeds and toolbar buttons:
 
 ```dart
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions_lite/flutter_quill_extensions_lite.dart';
 
-// in toolbar use flutterQuillEmbeds.buttons
+// In the toolbar, use `FlutterQuillEmbeds.buttons`
 QuillToolbar.basic(
-controller: controller,
-embedButtons: FlutterQuillEmbeds.buttons(),
+  controller: controller,
+  embedButtons: FlutterQuillEmbeds.buttons(),
 );
-// in editor use flutterQuillEmbeds.builders
-QuillEditor.basic(
-controller: controller,
-readOnly: false,
-embedBuilders: FlutterQuillEmbeds.builders(),
-),
 
+// In the editor, use `FlutterQuillEmbeds.builders`
+QuillEditor.basic(
+  controller: controller,
+  readOnly: false,
+  embedBuilders: FlutterQuillEmbeds.builders(),
+);
 ```
 
-## Additional information
+## Features
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+- **Image**: Adds support for image embeds in the Quill editor.
+- **Line**: Allows you to add a custom line and customize its attributes, such as color and bold.
+
+## API Reference
+
+### `FlutterQuillEmbeds`
+
+#### `builders()`
+
+Returns a list of embed builders to provide support for custom embeds.
+
+#### `buttons({
+    Tooltips? tooltips,
+    Buttons? buttons,
+    MediaPickSetting? mediaPickSettingSelector,
+    DefaultSizes? defaultSizes,
+})`
+
+This method adds custom buttons to the Quill editor toolbar, such as the image and divider buttons.
+
+- `tooltips`: An optional parameter that allows you to customize tooltips for the buttons. It provides `imageButtonTooltip` and `dividerButtonTooltip` to set tooltips for the image and divider buttons, respectively.
+
+- `buttons`: An optional parameter that allows you to specify which buttons to display. By default, both the image and divider buttons are shown, but you can customize this behavior by setting `showImageButton` and `showDividerButton` properties in the `Buttons` class.
+
+- `mediaPickSettingSelector`: An optional parameter that allows you to customize media pick, when click image button get image from gallery or link .
+
+- `defaultSizes`: An optional parameter that allows you to customize the default sizes for image.
+
+
+## Exported Components
+
+The `flutter_quill_extensions_lite` package also exports the following components For easy addition and use flutter_quill:
+
+- `ImageUtils`: A utility class providing methods for handling image attributes and embedding images.
+
+- `QuillControllerUtils`: A utility class extending QuillController to provide additional methods for text manipulation.
+
+
+
+```
