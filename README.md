@@ -7,7 +7,7 @@ A Dart package for flutter quill,
 TODO: Put a short description of the package here that helps potential users
 know whether this package might be useful for them.
 
-![Preview](https://drive.google.com/file/d/1n7GzoyMHJVmx2ptS0MoMKdpRUsZpW9bq/view?usp=drive_link)
+![Preview](https://th.bing.com/th/id/OIP.vU02Y7nFrFqyEiMdeu8ESwHaJQ?pid=ImgDet&w=740&h=925&rs=1)
 
 
 ## Features
