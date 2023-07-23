@@ -25,8 +25,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions_lite/flutter_quill_extensions_lite.dart';
 
 // In the toolbar, use `FlutterQuillEmbeds.buttons`
-QuillToolbar.basic
-(
+QuillToolbar.basic(
 controller: controller,
 embedButtons: FlutterQuillEmbeds.buttons(),
 );
@@ -35,9 +34,7 @@ embedButtons: FlutterQuillEmbeds.buttons(),
 QuillEditor.basic(
 controller: controller,
 readOnly: false,
-embedBuilders: FlutterQuillEmbeds.builders(
-)
-,
+embedBuilders: FlutterQuillEmbeds.builders(),
 );
 ```
 
