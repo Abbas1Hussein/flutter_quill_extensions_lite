@@ -5,7 +5,8 @@ Flutter package to provide extras to `flutter_quill`.
 
 ## Installation
 
-To use the `flutter_quill_extensions_lite` package, you need to add it as a dependency in your `pubspec.yaml`:
+To use the `flutter_quill_extensions_lite` package, you need to add it as a dependency in
+your `pubspec.yaml`:
 
 ```yaml
 dependencies:
@@ -25,7 +26,8 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_extensions_lite/flutter_quill_extensions_lite.dart';
 
 // In the toolbar, use `FlutterQuillEmbeds.buttons`
-QuillToolbar.basic(
+QuillToolbar.basic
+(
 controller: controller,
 embedButtons: FlutterQuillEmbeds.buttons(),
 );
@@ -34,7 +36,9 @@ embedButtons: FlutterQuillEmbeds.buttons(),
 QuillEditor.basic(
 controller: controller,
 readOnly: false,
-embedBuilders: FlutterQuillEmbeds.builders(),
+embedBuilders: FlutterQuillEmbeds.builders(
+)
+,
 );
 ```
 
@@ -65,12 +69,12 @@ This method adds custom buttons to the Quill editor toolbar, such as the image a
 ```
 
 - `tooltips`: An optional parameter that allows you to customize tooltips for the buttons. It
-  provides (imageButtonTooltip) and (dividerButtonTooltip) to set tooltips for the image and divider
+  provides 'imageButtonTooltip' and 'dividerButtonTooltip' to set tooltips for the image and divider
   buttons, respectively.
 
 - `buttons`: An optional parameter that allows you to specify which buttons to display. By default,
   both the image and divider buttons are shown, but you can customize this behavior by
-  setting (showImageButton) and (showDividerButton) properties in the Buttons class.
+  setting 'showImageButton' and 'showDividerButton' properties in the Buttons class.
 
 - `mediaPickSettingSelector`: An optional parameter that allows you to customize media pick, when
   click image button get image from gallery or link.
@@ -82,10 +86,8 @@ This method adds custom buttons to the Quill editor toolbar, such as the image a
 The `flutter_quill_extensions_lite` package also exports the following components For easy access
 and use flutter_quill:
 
-- `QuillControllerUtils`: A utility class extending QuillController to provide additional methods
-  for text manipulation.
-
- Usage:
+- `QuillControllerUtils`: A utility class extending QuillController to provide additional methods for text manipulation.
+Usage:
 
 ```dart
 
@@ -95,8 +97,7 @@ controller.utilts;
 ```
 
 - `ImageUtils`: A utility class providing methods for handling image attributes and embedding images.
-
- Usage:
+Usage:
 
 ```dart
 
@@ -105,12 +106,13 @@ controller.utilts.imageUtilts;
 ```
 
 - `ColorUtils`: A utility class providing static methods for converting color codes to Color objects
-and vice versa.
-
- Usage:
+  and vice versa.
+Usage:
 
 ```dart
-static Color hexToColor(String? hexString);
+static Color hexToColor
+(
+String? hexString);
 
 static String colorToHex(Color color);
 ```
