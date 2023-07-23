@@ -85,7 +85,7 @@ and use flutter_quill:
 - `QuillControllerUtils`: A utility class extending QuillController to provide additional methods
   for text manipulation.
 
-  Usage:
+###### Usage:
 ```dart
 final QuillController controller = QuillController();
 controller.utilts;
@@ -94,7 +94,7 @@ controller.utilts;
 - `ImageUtils`: A utility class providing methods for handling image attributes and embedding
   images.
 
-  Usage:
+###### Usage:
 ```dart
 final QuillController controller = QuillController();
 controller.utilts.imageUtilts;
@@ -103,7 +103,7 @@ controller.utilts.imageUtilts;
 - `ColorUtils`: A utility class providing static methods for converting color codes to Color objects
   and vice versa.
 
-  Usage:
+###### Usage:
 ```dart
 static Color hexToColor(String? hexString);
 
