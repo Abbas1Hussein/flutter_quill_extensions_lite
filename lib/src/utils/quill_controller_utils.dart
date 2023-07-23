@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import 'image_utils.dart';
+import 'index.dart';
 
 /// A utility class extending `QuillController` to provide additional methods for text manipulation.
 class QuillControllerUtils {

@@ -1,5 +1,7 @@
 /// A utility class providing methods for validating data, such as image URLs and color codes.
 class ValidatorUtils {
+  ValidatorUtils._();
+
   /// Checks if the given [imageUrl] is in base64 format and not a URL starting with 'http'.
   /// Returns true if the [imageUrl] is in base64 format and false otherwise.
   static bool isImageBase64(String imageUrl) {

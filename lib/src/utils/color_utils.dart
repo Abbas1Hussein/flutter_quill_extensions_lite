@@ -4,6 +4,8 @@ import 'index.dart';
 
 /// A utility class providing methods for handling colors and converting color codes.
 class ColorUtils {
+  ColorUtils._();
+
   /// Converts a hexadecimal color [hexString] to a [Color] object.
   /// If [hexString] is null or invalid, returns the default color [Colors.black].
   static Color hexToColor(String? hexString) {
