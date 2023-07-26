@@ -37,8 +37,7 @@ class ImageToolbarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final iconFillColor =
-        iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
+    final iconFillColor = iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
 
     return QuillIconButton(
       icon: Icon(icon, size: iconSize, color: iconColor),
@@ -170,8 +169,7 @@ class LinkToolbarDialogState extends State<LinkToolbarDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: _link.isNotEmpty &&
-                  AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)
+          onPressed: _link.isNotEmpty && AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)
               ? _applyLink
               : null,
           child: Text(

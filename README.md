@@ -1,7 +1,8 @@
 # flutter_quill_extensions_lite
 
 ```markdown
-Flutter package to provide extras to `flutter_quill`.
+flutter_quill_extensions_lite is a Flutter package that provides additional features and enhancements to the flutter_quill package,
+which is a rich text editor for Flutter applications. Here's a brief overview of the installation, features, and API reference:
 
 ## Installation
 
@@ -54,9 +55,12 @@ Returns a list of embed builders to provide support for custom embeds.
 ```dart
  builders({
   ImageBuilders? imageBuilder,
+  DefaultSizes? defaultSizes,
 });
 ```
 - `imageBuilder`: An optional parameter that allows you to customize image view. It provides 'image' and 'options', 'readOnly',
+
+- `defaultSizes`: An optional parameter that allows you to customize the default sizes for image.
 
 #### `buttons()`
 
@@ -67,7 +71,6 @@ This method adds custom buttons to the Quill editor toolbar, such as the image a
   Tooltips? tooltips,
   Buttons? buttons,
   MediaPickSetting? mediaPickSettingSelector,
-  DefaultSizes? defaultSizes,
 });
 ```
 
@@ -81,8 +84,6 @@ This method adds custom buttons to the Quill editor toolbar, such as the image a
 
 - `mediaPickSettingSelector`: An optional parameter that allows you to customize media pick, when
   click image button get image from gallery or link.
-
-- `defaultSizes`: An optional parameter that allows you to customize the default sizes for image.
 
 ## Exported Components
 

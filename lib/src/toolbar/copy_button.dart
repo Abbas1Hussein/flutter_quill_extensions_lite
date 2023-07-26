@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../embeds/custom/divider.dart';
-import '../utils/quill_controller_utils.dart';
+import '../utils/index.dart';
 
-/// A button widget for adding line to the Quill editor toolbar.
-class DividerToolbarButton extends StatelessWidget {
-  const DividerToolbarButton({
+class Copy extends StatelessWidget {
+  const Copy({
+    super.key,
+    required this.quillControllerUtils,
     required this.icon,
-    required this.controller,
-    this.iconSize = kDefaultIconSize,
+    required this.iconSize,
     this.fillColor,
     this.iconTheme,
     this.dialogTheme,
     this.tooltip,
-    Key? key,
-  }) : super(key: key);
+  });
 
   final IconData icon;
   final double iconSize;
   final Color? fillColor;
-  final QuillController controller;
+  final QuillControllerUtils quillControllerUtils;
   final QuillIconTheme? iconTheme;
   final QuillDialogTheme? dialogTheme;
   final String? tooltip;
@@ -29,7 +27,8 @@ class DividerToolbarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final iconFillColor = iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
+    final iconFillColor =
+        iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
 
     return QuillIconButton(
       icon: Icon(icon, size: iconSize, color: iconColor),
@@ -39,9 +38,7 @@ class DividerToolbarButton extends StatelessWidget {
       size: iconSize * 1.77,
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
-      onPressed: () {
-        controller.utils.addValue(CustomDividerEmbeddable());
-      },
+      onPressed: quillControllerUtils.copy,
     );
   }
 }

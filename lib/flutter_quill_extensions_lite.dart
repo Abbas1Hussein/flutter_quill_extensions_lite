@@ -1,3 +1,4 @@
+/// This library provides extensions and custom components to enhance the functionality of `flutter_quill`.
 library flutter_quill_extensions_lite;
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import 'src/embeds/builders/divider.dart';
 import 'src/embeds/builders/image.dart';
+import 'src/toolbar/copy_button.dart';
 import 'src/toolbar/divider_button.dart';
 import 'src/toolbar/image_button.dart';
 import 'src/utils/index.dart';
@@ -12,20 +14,15 @@ import 'src/utils/index.dart';
 export 'src/toolbar/image_button.dart';
 export 'src/utils/index.dart' hide ImageUtils, ValidatorUtils;
 
+/// A collection of utility methods and builders for custom embeds and toolbar buttons.
 class FlutterQuillEmbeds {
+  /// Returns a list of embed builders to provide support for custom embeds.
+  ///
+  /// Parameters:
+  /// - [imageBuilder]: An optional parameter that allows you to customize the image view.
+  /// - [defaultSizes]: An optional parameter that allows you to customize the default sizes for images.
   static List<EmbedBuilder> builders({
     ImageBuilder? imageBuilder,
-}) {
-    return [
-      ImageEmbedBuilder(imageBuilder),
-      DividerEmbedBuilder(),
-    ];
-  }
-
-  static List<EmbedButtonBuilder> buttons({
-    Tooltips? tooltips,
-    Buttons? buttons,
-    MediaPickSetting? mediaPickSettingSelector,
     DefaultSizes? defaultSizes,
   }) {
     if (defaultSizes != null) {
@@ -34,6 +31,23 @@ class FlutterQuillEmbeds {
       instance.updateMedium(defaultSizes.medium);
       instance.updateLarge(defaultSizes.large);
     }
+    return [
+      ImageEmbedBuilder(imageBuilder),
+      DividerEmbedBuilder(),
+    ];
+  }
+
+  /// Returns a list of toolbar button builders to add custom buttons to the Quill editor toolbar.
+  ///
+  /// Parameters:
+  /// - [tooltips]: An optional parameter that allows you to customize tooltips for the buttons.
+  /// - [buttons]: An optional parameter that allows you to specify which buttons to display.
+  /// - [mediaPickSettingSelector]: An optional parameter that allows you to customize media pick when clicking the image button.
+  static List<EmbedButtonBuilder> buttons({
+    Tooltips? tooltips,
+    Buttons? buttons,
+    MediaPickSetting? mediaPickSettingSelector,
+  }) {
     return [
       if (buttons == null || buttons.showImageButton)
         (controller, toolbarIconSize, iconTheme, dialogTheme) {
@@ -57,27 +71,44 @@ class FlutterQuillEmbeds {
             iconTheme: iconTheme,
             dialogTheme: dialogTheme,
           );
-        }
+        },
+      if (buttons == null || buttons.showDividerButton)
+        (controller, toolbarIconSize, iconTheme, dialogTheme) {
+          return Copy(
+            tooltip: tooltips?.copyButtonTooltip,
+            icon: Icons.copy,
+            iconSize: toolbarIconSize,
+            quillControllerUtils: controller.utils,
+            iconTheme: iconTheme,
+            dialogTheme: dialogTheme,
+          );
+        },
     ];
   }
 }
 
+/// A class to customize tooltips for the buttons in the Quill editor toolbar.
 class Tooltips {
   String? imageButtonTooltip;
   String? dividerButtonTooltip;
+  String? copyButtonTooltip;
 
   Tooltips({
     this.dividerButtonTooltip,
     this.imageButtonTooltip,
+    this.copyButtonTooltip,
   });
 }
 
+/// A class to specify which buttons to display in the Quill editor toolbar.
 class Buttons {
   bool showImageButton;
   bool showDividerButton;
+  bool showCopyButton;
 
   Buttons({
     this.showImageButton = true,
     this.showDividerButton = true,
+    this.showCopyButton = true,
   });
 }

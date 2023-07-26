@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import 'image_utils.dart';
@@ -26,9 +29,34 @@ class QuillControllerUtils {
   /// Retrieves the length of the current selection in the [controller].
   int get length => controller.selection.extentOffset - index;
 
+  /// Returns the JSON representation of the [controller]'s document.
+  String get jsonData => jsonEncode(controller.document.toDelta().toJson());
+
+  /// Inserts a [List] of [dynamic] JSON data into the [controller]'s document.
+  void insert(List<dynamic> json) => controller.document = Document.fromJson(json);
+
+  /// Copies the JSON data of the [controller]'s document to the clipboard.
+  void copy() => Clipboard.setData(ClipboardData(text: jsonData));
+
+  /// Retrieves JSON data from the clipboard and returns it as a [List<dynamic>].
+  /// Returns `null` if the clipboard data is not valid JSON or if no data is available.
+  Future<List<dynamic>?> past() async {
+    ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    if (clipboardData?.text != null) {
+      try {
+        List<dynamic> jsonData = jsonDecode(clipboardData!.text!);
+        return jsonData;
+      } catch (e) {
+        throw 'Invalid JSON data, $e';
+      }
+    }
+    return null;
+  }
+
   /// Removes the currently selected value (embed or text) from the [controller].
   void removeValue() {
-    controller.replaceText(offset, 1, '', TextSelection.collapsed(offset: offset));
+    controller.replaceText(
+        offset, 1, '', TextSelection.collapsed(offset: offset));
   }
 
   /// Adds a new value (embed or text) to the [controller] at the current selection.
