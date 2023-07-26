@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
+import '../embeds/view/dialogs/remove.dart';
 import 'index.dart';
 
 /// A utility class providing methods for handling image attributes and embedding images.
@@ -31,13 +32,16 @@ class ImageUtils {
   ]) {
     final width = imageAttributeModel?.width.toDouble();
     final height = imageAttributeModel?.height.toDouble();
-    final alignment = imageAttributeModel?.alignment.alignmentGeometry ?? Alignment.center;
+    final alignment =
+        imageAttributeModel?.alignment.alignmentGeometry ?? Alignment.center;
+    final boxFit = imageAttributeModel?.boxFit;
     if (ValidatorUtils.isImageBase64(imageUrl)) {
       return Image.memory(
         base64.decode(imageUrl),
         width: width,
         height: height,
         alignment: alignment,
+        fit: boxFit,
       );
     }
 
@@ -47,6 +51,7 @@ class ImageUtils {
         width: width,
         height: height,
         alignment: alignment,
+        fit: boxFit,
       );
     }
     return Image.file(
@@ -54,6 +59,7 @@ class ImageUtils {
       width: width,
       height: height,
       alignment: alignment,
+      fit: boxFit,
     );
   }
 
@@ -74,6 +80,7 @@ class ImageUtils {
       'width',
       'height',
       'alignment',
+      'boxFit',
     });
     if (atr.isEmpty) return null;
 
@@ -91,11 +98,13 @@ class ImageAttributeModel {
   final int width;
   final int height;
   final AlignmentImage alignment;
+  final BoxFit boxFit;
 
   ImageAttributeModel({
     required this.width,
     required this.height,
     required this.alignment,
+    required this.boxFit,
   });
 
   /// Creates an [ImageAttributeModel] from a JSON map.
@@ -104,13 +113,32 @@ class ImageAttributeModel {
       height: int.parse(json['height']),
       width: int.parse(json['width']),
       alignment: AlignmentImageEx.getAlignment(json['alignment']),
+      boxFit: BoxFit.values.firstWhere(
+        (element) => element.name.contains(json['boxFit']),
+      ),
     );
   }
 
   /// Converts the [ImageAttributeModel] to a [StyleAttribute] object for formatting in the editor.
   StyleAttribute toStyleAttribute() {
     return StyleAttribute(
-      "width: $width; height: $height; alignment: ${alignment.name}",
+      "width: $width; height: $height; alignment: ${alignment.name}; boxFit: ${boxFit.name};",
     );
   }
+}
+
+/// class representing options dialog that controller in image like
+/// * ---> [SizeClassification], [AlignmentImage], [BoxFit], [RemoveOption].
+class OptionsImage {
+  final Widget sizeClassification;
+  final Widget alignment;
+  final Widget boxFit;
+  final Widget remove;
+
+  OptionsImage({
+    required this.sizeClassification,
+    required this.alignment,
+    required this.boxFit,
+    required this.remove,
+  });
 }

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../custom/image.dart';
+import '../../../flutter_quill_extensions_lite.dart';
 import '../view/image/image.dart';
 
 /// This class is an implementation of the [EmbedBuilder] interface specific
 /// to rendering image embeds in the Quill editor.
 class ImageEmbedBuilder extends EmbedBuilder {
+  ImageEmbedBuilder(this.imageBuilder);
+
+  final ImageBuilder? imageBuilder;
+
   @override
-  String get key => CustomImageEmbeddable.imageType;
+  String get key => BlockEmbed.imageType;
 
   @override
   Widget build(
@@ -19,6 +23,12 @@ class ImageEmbedBuilder extends EmbedBuilder {
     bool inline,
     TextStyle textStyle,
   ) {
-    return ImageWrapper(isReadOnly: readOnly, controller: controller, image: node.value.data);
+    return ImageWrapper(
+      isReadOnly: readOnly,
+      controller: controller,
+      url: node.value.data,
+      attributes: node.style.attributes,
+      imageBuilder: imageBuilder,
+    );
   }
 }

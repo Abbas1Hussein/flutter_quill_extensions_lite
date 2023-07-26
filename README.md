@@ -51,6 +51,13 @@ embedBuilders: FlutterQuillEmbeds.builders(),
 
 Returns a list of embed builders to provide support for custom embeds.
 
+```dart
+ builders({
+  ImageBuilders? imageBuilder,
+});
+```
+- `imageBuilder`: An optional parameter that allows you to customize image view. It provides 'image' and 'options', 'readOnly',
+
 #### `buttons()`
 
 This method adds custom buttons to the Quill editor toolbar, such as the image and divider buttons.

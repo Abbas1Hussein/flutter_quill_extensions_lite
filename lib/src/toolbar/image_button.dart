@@ -7,7 +7,6 @@ import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../embeds/custom/image.dart';
 import '../embeds/view/dialogs/media_pick_select.dart';
 import '../utils/index.dart';
 
@@ -79,31 +78,32 @@ class ImageToolbarButton extends StatelessWidget {
     BuildContext context,
     QuillController controller,
   ) async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       final bytes = (await pickedImage.readAsBytes());
 
-      final image = controller.utils.imageUtils.imageByUrl(
-        kIsWeb ? base64.encode(bytes) : pickedImage.path,
-      );
+      final value = kIsWeb ? base64.encode(bytes) : pickedImage.path;
 
-      controller.utils.addValue(CustomImageEmbeddable(image));
-      _addImageAttributeByOffset(image);
+      _addImage(value);
     }
   }
 
-  void _addImageAttributeByOffset(Image image) {
+  /// add image with default property such as [height] and [width]
+  void _addImage(String url) {
+    final image = controller.utils.imageUtils.imageByUrl(url);
     image.image.resolve(const ImageConfiguration()).addListener(
       ImageStreamListener(
         (ImageInfo info, _) {
-          controller.utils.imageUtils.updateImageAttribute(
-            imageAttributeModel: ImageAttributeModel(
+          controller.utils.addValue(
+            BlockEmbed.image(url),
+            ImageAttributeModel(
               width: info.image.height,
               height: info.image.width,
               alignment: AlignmentImage.center,
-            ),
+              boxFit: BoxFit.none,
+            ).toStyleAttribute(),
           );
+          controller.moveCursorToPosition(controller.utils.offset);
         },
       ),
     );
@@ -120,9 +120,7 @@ class ImageToolbarButton extends StatelessWidget {
   /// Handles the submitted link from the dialog.
   void _linkSubmitted(String? url) {
     if (url != null && url.isNotEmpty) {
-      final image = controller.utils.imageUtils.imageByUrl(url);
-      controller.utils.addValue(CustomImageEmbeddable(image));
-      _addImageAttributeByOffset(image);
+      _addImage(url);
     }
   }
 }

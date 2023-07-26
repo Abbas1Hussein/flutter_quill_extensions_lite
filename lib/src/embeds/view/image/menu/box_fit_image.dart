@@ -4,24 +4,23 @@ import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import '../../../../utils/index.dart';
 import '../../dialogs/simple.dart';
 
-class MenuPopupAlignmentImage extends StatefulWidget {
+class BoxFitImage extends StatefulWidget {
   final QuillController controller;
   final Image image;
 
-  const MenuPopupAlignmentImage({
+  const BoxFitImage({
     super.key,
     required this.controller,
     required this.image,
   });
 
   @override
-  State<MenuPopupAlignmentImage> createState() =>
-      _MenuPopupAlignmentImageState();
+  State<BoxFitImage> createState() => _BoxFitImageState();
 }
 
-class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
+class _BoxFitImageState extends State<BoxFitImage> {
   late QuillControllerUtils quillControllerUtils;
-  late AlignmentImage alignmentImage;
+  late BoxFit boxFit;
 
   @override
   void initState() {
@@ -31,9 +30,9 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
         quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
 
     if (attributes != null) {
-      alignmentImage = AlignmentImageEx.getAlignment(attributes.alignment.name);
+      boxFit = attributes.boxFit;
     } else {
-      alignmentImage = AlignmentImage.center;
+      boxFit = BoxFit.cover;
     }
   }
 
@@ -50,20 +49,20 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
         );
       },
       child: SimpleDialogItem(
-        icon: Icons.format_align_center_rounded,
+        icon: Icons.fit_screen_rounded,
         color: Colors.red.shade200,
-        text: 'alignment',
+        text: 'boxFit',
         onPressed: () {},
       ),
     );
   }
 
   List<PopupMenuEntry<dynamic>> _buildMenuPopup() {
-    return AlignmentImage.values.map(
+    return BoxFit.values
+        .map(
           (element) => PopupMenuItem(
             child: Card(
-              color:
-                  alignmentImage == element ? Colors.cyan : Colors.transparent,
+              color: boxFit == element ? Colors.cyan : Colors.transparent,
               child: Padding(
                 padding: const EdgeInsetsDirectional.all(8.0),
                 child:
@@ -72,13 +71,14 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
             ),
             onTap: () {
               _onTapHandler(element);
-              setState(() => alignmentImage = element);
+              setState(() => boxFit = element);
             },
           ),
-        ).toList();
+        )
+        .toList();
   }
 
-  void _onTapHandler(AlignmentImage element) {
+  void _onTapHandler(BoxFit element) {
     quillControllerUtils.controller.moveCursorToPosition(quillControllerUtils.offset);
     final attribute = quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
 
@@ -86,8 +86,8 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
       imageAttributeModel: ImageAttributeModel(
         width: attribute!.width,
         height: attribute.height,
-        boxFit: attribute.boxFit,
-        alignment: element,
+        alignment: attribute.alignment,
+        boxFit: element,
       ),
     );
   }

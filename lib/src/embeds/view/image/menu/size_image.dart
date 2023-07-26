@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
-import 'package:flutter_quill_extensions_lite/src/embeds/custom/image.dart';
 
 import '../../../../../flutter_quill_extensions_lite.dart';
-import '../../../../utils/quill_controller_utils.dart';
 import '../../dialogs/simple.dart';
 
 class MenuPopupSizeImageClassification extends StatefulWidget {
@@ -93,8 +91,9 @@ class _MenuPopupSizeImageClassificationState extends State<MenuPopupSizeImageCla
   }
 
   void _onTapHandler(SizeClassification element) {
-    final oldAttribute =
-        quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
+    quillControllerUtils.controller.moveCursorToPosition(quillControllerUtils.offset);
+
+    final oldAttribute = quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
     ImageAttributeModel imageAttributeModel;
 
     if (element == SizeClassification.originalSize) {
@@ -102,6 +101,7 @@ class _MenuPopupSizeImageClassificationState extends State<MenuPopupSizeImageCla
         width: width,
         height: height,
         alignment: oldAttribute!.alignment,
+        boxFit: oldAttribute.boxFit,
       );
     } else {
       final size = element.getSize();
@@ -109,20 +109,12 @@ class _MenuPopupSizeImageClassificationState extends State<MenuPopupSizeImageCla
         width: size.width.toInt(),
         height: size.height.toInt(),
         alignment: oldAttribute!.alignment,
+        boxFit: oldAttribute.boxFit,
       );
     }
 
-    quillControllerUtils.removeValue();
-    quillControllerUtils.addValue(
-      CustomImageEmbeddable(
-        Image(
-          image: widget.image.image,
-          width: imageAttributeModel.width.toDouble(),
-          height: imageAttributeModel.height.toDouble(),
-          alignment: imageAttributeModel.alignment.alignmentGeometry,
-        ),
-      ),
-      imageAttributeModel.toStyleAttribute(),
+    quillControllerUtils.imageUtils.updateImageAttribute(
+      imageAttributeModel: imageAttributeModel,
     );
   }
 

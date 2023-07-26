@@ -13,9 +13,11 @@ export 'src/toolbar/image_button.dart';
 export 'src/utils/index.dart' hide ImageUtils, ValidatorUtils;
 
 class FlutterQuillEmbeds {
-  static List<EmbedBuilder> builders() {
+  static List<EmbedBuilder> builders({
+    ImageBuilder? imageBuilder,
+}) {
     return [
-      ImageEmbedBuilder(),
+      ImageEmbedBuilder(imageBuilder),
       DividerEmbedBuilder(),
     ];
   }
