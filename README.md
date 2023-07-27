@@ -109,7 +109,7 @@ builders({
 });
 ```
 
-- `imageBuilder`: An optional parameter that allows you to customize the image view. It provides 'image' and 'options', 'readOnly',
+- `imageBuilder`: An optional parameter that allows you to customize the image view. It provides `image` and `options`, `readOnly`,
 
 - `defaultSizes`: An optional parameter that allows you to customize the default sizes for images.
 
