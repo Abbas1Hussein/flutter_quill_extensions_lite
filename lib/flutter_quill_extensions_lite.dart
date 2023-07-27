@@ -1,12 +1,14 @@
 /// This library provides extensions and custom components to enhance the functionality of `flutter_quill`.
 library flutter_quill_extensions_lite;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill_extensions_lite/src/toolbar/data_operation_button.dart';
 
 import 'src/embeds/builders/divider.dart';
 import 'src/embeds/builders/image.dart';
+import 'src/toolbar/data_operation_button.dart';
 import 'src/toolbar/divider_button.dart';
 import 'src/toolbar/image_button.dart';
 import 'src/utils/index.dart';
@@ -66,7 +68,9 @@ class FlutterQuillEmbeds {
       if (buttons == null || buttons.showDataOperationButtonTooltip)
         (controller, toolbarIconSize, iconTheme, dialogTheme) {
           return DataOperationToolbarButton(
-            dataOperationSetting: dataOperationSetting,
+            dataOperationSetting: (isMobile() || kIsWeb)
+                ? DataOperationSetting.restore
+                : dataOperationSetting,
             tooltip: tooltips?.dividerButtonTooltip,
             iconSize: toolbarIconSize,
             controller: controller,

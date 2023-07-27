@@ -21,7 +21,9 @@ class RemoveOption extends StatelessWidget {
       text: 'Remove'.i18n,
       onPressed: () {
         controller.utils.removeValue();
-        Navigator.pop(context);
+        if (Navigator.canPop(context)){
+          Navigator.pop(context);
+        }
       },
     );
   }

@@ -27,8 +27,7 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
   void initState() {
     super.initState();
     quillControllerUtils = widget.controller.utils;
-    final attributes =
-        quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
+    final attributes = quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
 
     if (attributes != null) {
       alignmentImage = AlignmentImageEx.getAlignment(attributes.alignment.name);

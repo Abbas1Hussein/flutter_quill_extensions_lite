@@ -78,18 +78,15 @@ class DataOperationToolbarButton extends StatelessWidget {
   Future<void> _onPressedHandler(BuildContext context) async {
     if (dataOperationSetting == null) {
       // If the dataOperationSetting is not provided, show the DataOperationSelect dialog
-      const DataOperationSelect().show(context).then(
-        (source) {
-          if (source != null) {
-            // If the user selects an option from the dialog, perform the corresponding data operation
-            if (source == DataOperationSetting.export) {
-              handleExportDataOperation();
-            } else {
-              handleRestoreDataOperation();
-            }
-          }
-        },
-      );
+      final source = await const DataOperationSelect().show(context);
+      if (source != null) {
+        // If the user selects an option from the dialog, perform the corresponding data operation
+        if (source == DataOperationSetting.export) {
+          handleExportDataOperation();
+        } else {
+          handleRestoreDataOperation();
+        }
+      }
     } else if (dataOperationSetting == DataOperationSetting.export) {
       handleExportDataOperation();
     } else {

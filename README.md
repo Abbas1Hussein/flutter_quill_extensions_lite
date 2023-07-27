@@ -90,7 +90,7 @@ QuillEditor.basic(
 
 - **Divider**: Allows you to add a custom line (divider) and customize its attributes, such as color and bold.
 
-- **Export Data**: Easily export editor content to a text file. You can choose to encode the data in base64 format for added security.
+- **Export Data**: Easily export editor content to a text file. You can choose to encode the data in base64 format for added security. Note the Export Data only work in `desktop`
 
 - **Restore Data**: Restore editor content from a previously exported text file. The package automatically detects if the data is encoded in base64 format or json.
 
