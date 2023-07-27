@@ -115,7 +115,7 @@ builders({
 
 #### `buttons()`
 
-This method adds custom buttons to the Quill editor toolbar, such as the image and divider buttons.
+This method adds custom buttons to the Quill editor toolbar, such as the image and divider buttons etc...
 
 ```dart
 buttons({
@@ -126,9 +126,9 @@ buttons({
 });
 ```
 
-- `tooltips`: An optional parameter that allows you to customize tooltips for the buttons. It provides 'imageButtonTooltip' and 'dividerButtonTooltip' to set tooltips for the image and divider buttons, respectively.
+- `tooltips`: An optional parameter that allows you to customize tooltips for the buttons.
 
-- `buttons`: An optional parameter that allows you to specify which buttons to display. By default, both the image and divider buttons are shown, but you can customize this behavior by setting 'showImageButton' and 'showDividerButton' properties in the Buttons class.
+- `buttons`: An optional parameter that allows you to specify which buttons to display. By default, all are shown.
 
 - `mediaPickSettingSelector`: An optional parameter that allows you to customize media pick when clicking the image button to get an image from the gallery or link.
 
