@@ -3,10 +3,10 @@ library flutter_quill_extensions_lite;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill_extensions_lite/src/toolbar/data_operation_button.dart';
 
 import 'src/embeds/builders/divider.dart';
 import 'src/embeds/builders/image.dart';
-import 'src/toolbar/copy_button.dart';
 import 'src/toolbar/divider_button.dart';
 import 'src/toolbar/image_button.dart';
 import 'src/utils/index.dart';
@@ -46,7 +46,9 @@ class FlutterQuillEmbeds {
   static List<EmbedButtonBuilder> buttons({
     Tooltips? tooltips,
     Buttons? buttons,
+    bool useBase64 = true,
     MediaPickSetting? mediaPickSettingSelector,
+    DataOperationSetting? dataOperationSetting,
   }) {
     return [
       if (buttons == null || buttons.showImageButton)
@@ -61,6 +63,18 @@ class FlutterQuillEmbeds {
             dialogTheme: dialogTheme,
           );
         },
+      if (buttons == null || buttons.showDataOperationButtonTooltip)
+        (controller, toolbarIconSize, iconTheme, dialogTheme) {
+          return DataOperationToolbarButton(
+            dataOperationSetting: dataOperationSetting,
+            tooltip: tooltips?.dividerButtonTooltip,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            iconTheme: iconTheme,
+            dialogTheme: dialogTheme,
+            useBase64: useBase64,
+          );
+        },
       if (buttons == null || buttons.showDividerButton)
         (controller, toolbarIconSize, iconTheme, dialogTheme) {
           return DividerToolbarButton(
@@ -68,17 +82,6 @@ class FlutterQuillEmbeds {
             icon: Icons.horizontal_rule_rounded,
             iconSize: toolbarIconSize,
             controller: controller,
-            iconTheme: iconTheme,
-            dialogTheme: dialogTheme,
-          );
-        },
-      if (buttons == null || buttons.showDividerButton)
-        (controller, toolbarIconSize, iconTheme, dialogTheme) {
-          return Copy(
-            tooltip: tooltips?.copyButtonTooltip,
-            icon: Icons.copy,
-            iconSize: toolbarIconSize,
-            quillControllerUtils: controller.utils,
             iconTheme: iconTheme,
             dialogTheme: dialogTheme,
           );
@@ -91,12 +94,12 @@ class FlutterQuillEmbeds {
 class Tooltips {
   String? imageButtonTooltip;
   String? dividerButtonTooltip;
-  String? copyButtonTooltip;
+  String? dataOperationButtonTooltip;
 
   Tooltips({
     this.dividerButtonTooltip,
     this.imageButtonTooltip,
-    this.copyButtonTooltip,
+    this.dataOperationButtonTooltip,
   });
 }
 
@@ -104,11 +107,11 @@ class Tooltips {
 class Buttons {
   bool showImageButton;
   bool showDividerButton;
-  bool showCopyButton;
+  bool showDataOperationButtonTooltip;
 
   Buttons({
     this.showImageButton = true,
     this.showDividerButton = true,
-    this.showCopyButton = true,
+    this.showDataOperationButtonTooltip = true,
   });
 }

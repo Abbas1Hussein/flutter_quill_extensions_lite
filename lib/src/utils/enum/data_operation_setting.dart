@@ -1,0 +1,1 @@
+enum DataOperationSetting { export, restore }

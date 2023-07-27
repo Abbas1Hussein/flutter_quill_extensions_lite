@@ -37,11 +37,12 @@ class ImageToolbarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final iconColor = iconTheme?.iconUnselectedColor ?? theme.iconTheme.color;
-    final iconFillColor = iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
+    final iconFillColor =
+        iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
 
     return QuillIconButton(
       icon: Icon(icon, size: iconSize, color: iconColor),
-      tooltip: tooltip,
+      tooltip: tooltip ?? 'image',
       highlightElevation: 0,
       hoverElevation: 0,
       size: iconSize * 1.77,
@@ -58,7 +59,7 @@ class ImageToolbarButton extends StatelessWidget {
         (source) {
           if (source != null) {
             if (source == MediaPickSetting.gallery) {
-              handleImageButtonTap(context, controller);
+              handleImageButtonTap();
             } else {
               _typeLink(context);
             }
@@ -66,7 +67,7 @@ class ImageToolbarButton extends StatelessWidget {
         },
       );
     } else if (mediaPickSettingSelector == MediaPickSetting.gallery) {
-      handleImageButtonTap(context, controller);
+      handleImageButtonTap();
     } else {
       _typeLink(context);
     }
@@ -74,8 +75,6 @@ class ImageToolbarButton extends StatelessWidget {
 
   /// For pickedImage logic
   Future<void> handleImageButtonTap(
-    BuildContext context,
-    QuillController controller,
   ) async {
     final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
@@ -169,7 +168,8 @@ class LinkToolbarDialogState extends State<LinkToolbarDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: _link.isNotEmpty && AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)
+          onPressed: _link.isNotEmpty &&
+                  AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)
               ? _applyLink
               : null,
           child: Text(

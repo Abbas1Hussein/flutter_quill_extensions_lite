@@ -30,13 +30,13 @@ class QuillControllerUtils {
   int get length => controller.selection.extentOffset - index;
 
   /// Returns the JSON representation of the [controller]'s document.
-  String get jsonData => jsonEncode(controller.document.toDelta().toJson());
+  String get data => jsonEncode(controller.document.toDelta().toJson());
 
   /// Inserts a [List] of [dynamic] JSON data into the [controller]'s document.
   void insert(List<dynamic> json) => controller.document = Document.fromJson(json);
 
   /// Copies the JSON data of the [controller]'s document to the clipboard.
-  void copy() => Clipboard.setData(ClipboardData(text: jsonData));
+  void copy() => Clipboard.setData(ClipboardData(text: data));
 
   /// Retrieves JSON data from the clipboard and returns it as a [List<dynamic>].
   /// Returns `null` if the clipboard data is not valid JSON or if no data is available.

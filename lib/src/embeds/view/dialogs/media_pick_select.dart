@@ -3,8 +3,7 @@ import 'package:flutter_quill/translations.dart';
 
 import '../../../utils/index.dart';
 
-
-/// chose type MediaPickSetting get picture from [link] or [gallery]
+/// select a MediaPickSelect: Link or Gallery
 class MediaPickSelect extends StatelessWidget {
   const MediaPickSelect({super.key});
 
@@ -36,7 +35,9 @@ class MediaPickSelect extends StatelessWidget {
     );
   }
 
+  /// Shows the MediaPickSelect dialog and returns the selected MediaPickSetting.
   Future<MediaPickSetting?> show(BuildContext context) async {
-    return showDialog<MediaPickSetting>(context: context, builder: (ctx) => this);
+    return showDialog<MediaPickSetting>(
+        context: context, builder: (ctx) => this);
   }
 }
