@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../../../../utils/index.dart';
+import '../../../../utils/utils.dart';
 import '../../dialogs/simple.dart';
 
 class BoxFitImage extends StatefulWidget {

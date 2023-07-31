@@ -17,6 +17,6 @@ class DividerEmbedBuilder extends EmbedBuilder {
     bool inline,
     TextStyle textStyle,
   ) {
-    return DividerWrapper(attributes: node.style.attributes);
+    return DividerView(attributes: node.style.attributes);
   }
 }

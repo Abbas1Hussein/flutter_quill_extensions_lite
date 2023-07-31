@@ -8,7 +8,7 @@ import 'package:flutter_quill/translations.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../embeds/view/dialogs/media_pick_select.dart';
-import '../utils/index.dart';
+import '../utils/utils.dart';
 
 /// A button widget for adding images to the Quill editor toolbar.
 class ImageToolbarButton extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../../../../utils/index.dart';
+import '../../../../utils/utils.dart';
 import '../../dialogs/simple.dart';
 
 class MenuPopupAlignmentImage extends StatefulWidget {
@@ -27,7 +27,8 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
   void initState() {
     super.initState();
     quillControllerUtils = widget.controller.utils;
-    final attributes = quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
+    final attributes =
+        quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
 
     if (attributes != null) {
       alignmentImage = AlignmentImageEx.getAlignment(attributes.alignment.name);
@@ -38,7 +39,10 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return SimpleDialogItem(
+      icon: Icons.format_align_center_rounded,
+      color: Colors.red.shade200,
+      text: 'alignment',
       onTapDown: (details) {
         final left = details.globalPosition.dx;
         final top = details.globalPosition.dy;
@@ -48,17 +52,12 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
           items: _buildMenuPopup(),
         );
       },
-      child: SimpleDialogItem(
-        icon: Icons.format_align_center_rounded,
-        color: Colors.red.shade200,
-        text: 'alignment',
-        onPressed: () {},
-      ),
     );
   }
 
   List<PopupMenuEntry<dynamic>> _buildMenuPopup() {
-    return AlignmentImage.values.map(
+    return AlignmentImage.values
+        .map(
           (element) => PopupMenuItem(
             child: Card(
               color:
@@ -74,12 +73,15 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
               setState(() => alignmentImage = element);
             },
           ),
-        ).toList();
+        )
+        .toList();
   }
 
   void _onTapHandler(AlignmentImage element) {
-    quillControllerUtils.controller.moveCursorToPosition(quillControllerUtils.offset);
-    final attribute = quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
+    quillControllerUtils.controller
+        .moveCursorToPosition(quillControllerUtils.offset);
+    final attribute =
+        quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
 
     quillControllerUtils.imageUtils.updateImageAttribute(
       imageAttributeModel: ImageAttributeModel(

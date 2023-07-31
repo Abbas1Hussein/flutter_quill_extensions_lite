@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import 'image_utils.dart';
-import 'index.dart';
+import 'table_utils.dart';
+import 'utils.dart';
 
 /// A utility class extending `QuillController` to provide additional methods for text manipulation.
 class QuillControllerUtils {
@@ -33,7 +33,8 @@ class QuillControllerUtils {
   String get data => jsonEncode(controller.document.toDelta().toJson());
 
   /// Inserts a [List] of [dynamic] JSON data into the [controller]'s document.
-  void insert(List<dynamic> json) => controller.document = Document.fromJson(json);
+  void insert(List<dynamic> json) =>
+      controller.document = Document.fromJson(json);
 
   /// Copies the JSON data of the [controller]'s document to the clipboard.
   void copy() => Clipboard.setData(ClipboardData(text: data));
@@ -41,7 +42,8 @@ class QuillControllerUtils {
   /// Retrieves JSON data from the clipboard and returns it as a [List<dynamic>].
   /// Returns `null` if the clipboard data is not valid JSON or if no data is available.
   Future<List<dynamic>?> past() async {
-    ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    ClipboardData? clipboardData =
+        await Clipboard.getData(Clipboard.kTextPlain);
     if (clipboardData?.text != null) {
       try {
         List<dynamic> jsonData = jsonDecode(clipboardData!.text!);
@@ -72,6 +74,20 @@ class QuillControllerUtils {
 
   /// Provides access to the [ImageUtils] class for handling image attributes and embedding images.
   ImageUtils get imageUtils => ImageUtils(this);
+
+  /// Provides access to the [TableUtils] class for handling table attributes and embedding table.
+  TableUtils get tableUtils => TableUtils(this);
+
+  /// Retrieves the style string of the currently selected in the [controller].
+  String getStyleString() {
+    final List<Style?> listStyle = controller.getAllSelectionStyles();
+    final style = listStyle.firstWhere(
+      (s) => s!.attributes.containsKey(Attribute.style.key),
+      orElse: Style.new,
+    );
+
+    return style?.attributes[Attribute.style.key]?.value ?? '';
+  }
 }
 
 /// Extension on [QuillController] to provide easy access to [QuillControllerUtils].

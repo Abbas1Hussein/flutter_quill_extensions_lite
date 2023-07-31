@@ -23,7 +23,7 @@ class ImageEmbedBuilder extends EmbedBuilder {
     bool inline,
     TextStyle textStyle,
   ) {
-    return ImageWrapper(
+    return ImageWrapperView(
       isReadOnly: readOnly,
       controller: controller,
       url: node.value.data,

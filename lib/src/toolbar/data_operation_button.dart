@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' show File;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import '../embeds/view/dialogs/data_operation_select.dart';
-import '../utils/index.dart';
+import '../utils/utils.dart';
 
 /// A toolbar button widget that handles data operations such as export and restore.
 class DataOperationToolbarButton extends StatelessWidget {
@@ -94,7 +94,7 @@ class DataOperationToolbarButton extends StatelessWidget {
     }
   }
 
-  // Export Data logic
+// Export Data logic
   Future<void> handleExportDataOperation() async {
     try {
       // Get the JSON data from the controller
@@ -133,9 +133,7 @@ class DataOperationToolbarButton extends StatelessWidget {
         final data = await file.readAsString();
 
         if (ValidatorUtils.isBase64(data)) {
-          controller.utils.insert(
-            jsonDecode(utf8.decode(base64Decode(data))),
-          );
+          controller.utils.insert(jsonDecode(utf8.decode(base64Decode(data))));
         } else {
           controller.utils.insert(jsonDecode(data));
         }

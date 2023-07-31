@@ -7,7 +7,7 @@ import 'menu/alignment_image.dart';
 import 'menu/box_fit_image.dart';
 import 'menu/size_image.dart';
 
-class ImageWrapper extends StatelessWidget {
+class ImageWrapperView extends StatelessWidget {
   final String url;
 
   final ImageBuilder? imageBuilder;
@@ -16,7 +16,7 @@ class ImageWrapper extends StatelessWidget {
   final QuillController controller;
   final bool isReadOnly;
 
-  const ImageWrapper({
+  const ImageWrapperView({
     Key? key,
     required this.url,
     required this.controller,

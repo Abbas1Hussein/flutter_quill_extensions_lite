@@ -5,30 +5,35 @@ class SimpleDialogItem extends StatelessWidget {
     required this.icon,
     required this.color,
     required this.text,
-    required this.onPressed,
+    this.onPressed,
+    this.onTapDown,
     Key? key,
   }) : super(key: key);
 
   final IconData icon;
   final Color color;
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
+  final GestureTapDownCallback? onTapDown;
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialogOption(
-      onPressed: onPressed,
-      child: Row(
-        children: [
-          Icon(icon, size: 36, color: color),
-          Padding(
-            padding: const EdgeInsetsDirectional.only(start: 16),
-            child: Text(
-              text,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+    return GestureDetector(
+      onTapDown: onTapDown,
+      child: SimpleDialogOption(
+        onPressed: onPressed,
+        child: Row(
+          children: [
+            Icon(icon, size: 36, color: color),
+            Padding(
+              padding: const EdgeInsetsDirectional.only(start: 16),
+              child: Text(
+                text,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

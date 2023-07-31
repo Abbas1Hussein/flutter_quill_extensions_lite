@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'index.dart';
+import 'utils.dart';
 
 /// A utility class providing methods for handling colors and converting color codes.
 class ColorUtils {

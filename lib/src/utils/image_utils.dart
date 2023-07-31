@@ -6,7 +6,7 @@ import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import '../embeds/view/dialogs/remove.dart';
-import 'index.dart';
+import 'utils.dart';
 
 /// A utility class providing methods for handling image attributes and embedding images.
 class ImageUtils {
@@ -14,16 +14,6 @@ class ImageUtils {
 
   ImageUtils(this._quillControllerUtils);
 
-  /// Retrieves the style string of the currently selected image in the [controller].
-  String getImageStyleString() {
-    final String? s = _quillControllerUtils.controller
-        .getAllSelectionStyles()
-        .firstWhere((s) => s.attributes.containsKey(Attribute.style.key),
-            orElse: Style.new)
-        .attributes[Attribute.style.key]
-        ?.value;
-    return s ?? '';
-  }
 
   /// Generates an [Image] widget based on the provided [imageUrl], [width], [height], and [alignment].
   Image imageByUrl(
@@ -32,8 +22,7 @@ class ImageUtils {
   ]) {
     final width = imageAttributeModel?.width.toDouble();
     final height = imageAttributeModel?.height.toDouble();
-    final alignment =
-        imageAttributeModel?.alignment.alignmentGeometry ?? Alignment.center;
+    final alignment = imageAttributeModel?.alignment.alignmentGeometry ?? Alignment.center;
     final boxFit = imageAttributeModel?.boxFit;
     if (ValidatorUtils.isImageBase64(imageUrl)) {
       return Image.memory(
@@ -89,7 +78,7 @@ class ImageUtils {
 
   /// Fetches the image attributes of the currently selected image in the [controller].
   ImageAttributeModel? fetchImageAttributesByOffset() {
-    return fetchImageAttributeByString(getImageStyleString());
+    return fetchImageAttributeByString(_quillControllerUtils.getStyleString());
   }
 }
 

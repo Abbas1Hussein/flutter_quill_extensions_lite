@@ -7,3 +7,4 @@ export 'validator_utils.dart';
 export 'color_utils.dart';
 export 'quill_controller_utils.dart';
 export 'image_utils.dart';
+export 'toolbar_utils.dart';

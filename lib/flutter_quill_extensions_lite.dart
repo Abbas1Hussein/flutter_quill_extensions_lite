@@ -6,15 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import 'src/embeds/builders/divider.dart';
-import 'src/embeds/builders/image.dart';
-import 'src/toolbar/data_operation_button.dart';
-import 'src/toolbar/divider_button.dart';
-import 'src/toolbar/image_button.dart';
-import 'src/utils/index.dart';
+import 'src/embeds/builders/builders.dart';
+import 'src/toolbar/toolbar.dart';
+import 'src/utils/utils.dart';
 
-export 'src/toolbar/image_button.dart';
-export 'src/utils/index.dart' hide ImageUtils, ValidatorUtils;
+export 'src/utils/utils.dart' hide ImageUtils, ValidatorUtils;
 
 /// A collection of utility methods and builders for custom embeds and toolbar buttons.
 class FlutterQuillEmbeds {
@@ -36,6 +32,7 @@ class FlutterQuillEmbeds {
     return [
       ImageEmbedBuilder(imageBuilder),
       DividerEmbedBuilder(),
+      TableEmbedBuilder(),
     ];
   }
 
@@ -65,7 +62,7 @@ class FlutterQuillEmbeds {
             dialogTheme: dialogTheme,
           );
         },
-      if (buttons == null || buttons.showDataOperationButtonTooltip)
+      if (buttons == null || buttons.showDataOperationButton)
         (controller, toolbarIconSize, iconTheme, dialogTheme) {
           return DataOperationToolbarButton(
             dataOperationSetting: (isMobile() || kIsWeb)
@@ -90,6 +87,17 @@ class FlutterQuillEmbeds {
             dialogTheme: dialogTheme,
           );
         },
+      if (buttons == null || buttons.showTableButton)
+        (controller, toolbarIconSize, iconTheme, dialogTheme) {
+          return TableToolbarButton(
+            tooltip: tooltips?.tableButtonTooltip,
+            icon: Icons.table_view_rounded,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            iconTheme: iconTheme,
+            dialogTheme: dialogTheme,
+          );
+        }
     ];
   }
 }
@@ -99,11 +107,13 @@ class Tooltips {
   String? imageButtonTooltip;
   String? dividerButtonTooltip;
   String? dataOperationButtonTooltip;
+  String? tableButtonTooltip;
 
   Tooltips({
     this.dividerButtonTooltip,
     this.imageButtonTooltip,
     this.dataOperationButtonTooltip,
+    this.tableButtonTooltip,
   });
 }
 
@@ -111,11 +121,13 @@ class Tooltips {
 class Buttons {
   bool showImageButton;
   bool showDividerButton;
-  bool showDataOperationButtonTooltip;
+  bool showDataOperationButton;
+  bool showTableButton;
 
   Buttons({
     this.showImageButton = true,
     this.showDividerButton = true,
-    this.showDataOperationButtonTooltip = true,
+    this.showDataOperationButton = true,
+    this.showTableButton = true,
   });
 }

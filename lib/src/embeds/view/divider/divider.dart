@@ -3,10 +3,10 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../../utils/color_utils.dart';
 
-class DividerWrapper extends StatelessWidget {
+class DividerView extends StatelessWidget {
   final Map<String, Attribute<dynamic>> attributes;
 
-  const DividerWrapper({
+  const DividerView({
     super.key,
     required this.attributes,
   });
