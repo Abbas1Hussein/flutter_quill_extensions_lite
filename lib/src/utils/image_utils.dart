@@ -52,17 +52,6 @@ class ImageUtils {
     );
   }
 
-  /// Updates the image attributes of the currently selected image in the [controller].
-  void updateImageAttribute({
-    required ImageAttributeModel imageAttributeModel,
-  }) {
-    _quillControllerUtils.controller.document.format(
-      _quillControllerUtils.offset,
-      1,
-      imageAttributeModel.toStyleAttribute(),
-    );
-  }
-
   /// Parses the image attributes from the provided [s] string and returns an [ImageAttributeModel].
   ImageAttributeModel? fetchImageAttributeByString(String s) {
     Map<String, String> atr = parseKeyValuePairs(s, {
@@ -76,7 +65,7 @@ class ImageUtils {
     return ImageAttributeModel.fromJson(atr);
   }
 
-  /// Fetches the image attributes of the currently selected image in the [controller].
+  /// Fetches the image attributes of the currently selected image in the [QuillController].
   ImageAttributeModel? fetchImageAttributesByOffset() {
     return fetchImageAttributeByString(_quillControllerUtils.getStyleString());
   }

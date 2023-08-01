@@ -30,6 +30,7 @@ class ImageWrapperView extends StatelessWidget {
     if (imageBuilder != null) {
       return imageBuilder!(
         _imageAttributes(),
+        attributesUtils,
         OptionsImage(
           sizeClassification: sizeClassification(),
           alignment: alignment(),
@@ -54,11 +55,14 @@ class ImageWrapperView extends StatelessWidget {
     }
   }
 
-  Widget sizeClassification() => MenuPopupSizeImageClassification(controller: controller, image: _imageAttributes());
+  Widget sizeClassification() => MenuPopupSizeImageClassification(
+      controller: controller, image: _imageAttributes());
 
-  Widget alignment() => MenuPopupAlignmentImage(controller: controller, image: _imageAttributes());
+  Widget alignment() => MenuPopupAlignmentImage(
+      controller: controller, image: _imageAttributes());
 
-  Widget boxFit() => BoxFitImage(controller: controller, image: _imageAttributes());
+  Widget boxFit() =>
+      BoxFitImage(controller: controller, image: _imageAttributes());
 
   Widget remove() => RemoveOption(controller: controller);
 
@@ -73,7 +77,8 @@ class ImageWrapperView extends StatelessWidget {
 
   Image _imageAttributes() {
     if (attributes.isNotEmpty) {
-      final imageAttributes = controller.utils.imageUtils.fetchImageAttributeByString(
+      final imageAttributes =
+          controller.utils.imageUtils.fetchImageAttributeByString(
         attributes['style']!.value,
       );
       return controller.utils.imageUtils.imageByUrl(url, imageAttributes);
@@ -81,4 +86,6 @@ class ImageWrapperView extends StatelessWidget {
       return controller.utils.imageUtils.imageByUrl(url);
     }
   }
+
+  AttributesUtils get attributesUtils => AttributesUtils(attributes);
 }

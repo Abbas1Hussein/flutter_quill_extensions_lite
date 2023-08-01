@@ -1,24 +1,5 @@
 import 'package:flutter_quill/flutter_quill.dart';
 
-import 'quill_controller_utils.dart';
-
-class TableUtils {
-  final QuillControllerUtils _quillControllerUtils;
-
-  TableUtils(this._quillControllerUtils);
-
-  /// Updates the image attributes of the currently selected image in the [controller].
-  void updateTableAttribute({
-    required TableModel tableModel,
-  }) {
-    _quillControllerUtils.controller.document.format(
-      _quillControllerUtils.offset,
-      1,
-      tableModel.toAttribute(),
-    );
-  }
-}
-
 class TableModel {
   final int rowNumber;
   final int columnsNumber;
@@ -50,7 +31,7 @@ class TableModel {
     return {
       'rowNumber': rowNumber,
       'columnsNumber': columnsNumber,
-      'data': data
+      'data': data,
     };
   }
 

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' hide Text;
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill_extensions_lite/src/embeds/custom/box.dart';
 
-import '../embeds/view/dialogs/table_size_select.dart';
+import '../embeds/view/box/widgets/box_editor.dart';
 import '../utils/quill_controller_utils.dart';
 
-/// A button widget for adding table to the Quill editor toolbar.
-class TableToolbarButton extends StatelessWidget {
-  const TableToolbarButton({
+/// A button widget for adding box to the Quill editor toolbar.
+class BoxToolbarButton extends StatelessWidget {
+  const BoxToolbarButton({
     required this.icon,
     required this.controller,
     this.iconSize = kDefaultIconSize,
@@ -34,20 +35,16 @@ class TableToolbarButton extends StatelessWidget {
 
     return QuillIconButton(
       icon: Icon(icon, size: iconSize, color: iconColor),
-      tooltip: tooltip ?? 'table',
+      tooltip: tooltip ?? 'box',
       highlightElevation: 0,
       hoverElevation: 0,
       size: iconSize * 1.77,
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return TableSizeSelect(quillController: controller.utils);
-          },
-        );
-      },
+      onPressed: () => showDialog(
+        context: context,
+        builder: (context) => BoxWriteEditValue(quillController: controller),
+      ),
     );
   }
 }

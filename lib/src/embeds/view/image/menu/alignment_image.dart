@@ -83,13 +83,13 @@ class _MenuPopupAlignmentImageState extends State<MenuPopupAlignmentImage> {
     final attribute =
         quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
 
-    quillControllerUtils.imageUtils.updateImageAttribute(
-      imageAttributeModel: ImageAttributeModel(
+    quillControllerUtils.updateAttribute(
+      ImageAttributeModel(
         width: attribute!.width,
         height: attribute.height,
         boxFit: attribute.boxFit,
         alignment: element,
-      ),
+      ).toStyleAttribute(),
     );
   }
 }

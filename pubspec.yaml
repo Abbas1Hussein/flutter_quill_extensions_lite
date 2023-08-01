@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_quill: ^7.2.18
+  flutter_quill: ^7.2.19
   image_picker: ^1.0.1
   file_picker: ^5.3.3
 

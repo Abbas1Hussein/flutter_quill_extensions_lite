@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/table_utils.dart';
 import '../../../utils/utils.dart';
-import '../../custom/table.dart';
+import '../table/widget/table_editor_dialog.dart';
 
 class TableSizeSelect extends StatefulWidget {
   final QuillControllerUtils quillController;
@@ -25,7 +24,7 @@ class _TableSizeSelectState extends State<TableSizeSelect> {
     final size = MediaQuery.sizeOf(context);
     final cardSize = size.height * 0.1;
     return AlertDialog(
-      title: const Text('Select Table Size'),
+      title: const Text('Select TableSize'),
       content: SizedBox(
         width: size.height * 0.5,
         height: size.height * 0.5,
@@ -65,12 +64,16 @@ class _TableSizeSelectState extends State<TableSizeSelect> {
       actions: [
         TextButton(
           onPressed: () {
+            Navigator.of(context).pop();
             if (tableSizesModel != null) {
-              widget.quillController.addValue(
-                CustomTableEmbeddable(),
-                tableSizesModel?.toAttribute(),
+              showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) => TableAddEditValue(
+                  controller: widget.quillController.controller,
+                  tableModel: tableSizesModel!,
+                ),
               );
-              Navigator.of(context).pop();
             }
           },
           child: const Text('Add'),

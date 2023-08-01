@@ -82,13 +82,13 @@ class _BoxFitImageState extends State<BoxFitImage> {
     quillControllerUtils.controller.moveCursorToPosition(quillControllerUtils.offset);
     final attribute = quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
 
-    quillControllerUtils.imageUtils.updateImageAttribute(
-      imageAttributeModel: ImageAttributeModel(
+    quillControllerUtils.updateAttribute(
+       ImageAttributeModel(
         width: attribute!.width,
         height: attribute.height,
         alignment: attribute.alignment,
         boxFit: element,
-      ),
+      ).toStyleAttribute(),
     );
   }
 }

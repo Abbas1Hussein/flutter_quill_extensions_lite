@@ -103,9 +103,10 @@ class DataOperationToolbarButton extends StatelessWidget {
           : controller.utils.data;
 
       // Prompt the user to choose the file location and name
+      // must file name end with type txt such as file_name.txt
       final result = await FilePicker.platform.saveFile(
         allowedExtensions: ['txt'],
-        fileName: 'file_name.txt',
+        fileName: 'file_name.txt.txt',
         type: FileType.custom,
       );
 

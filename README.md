@@ -25,16 +25,6 @@ import 'package:flutter_quill_extensions_lite/flutter_quill_extensions_lite.dart
 QuillToolbar.basic(
   controller: controller,
   embedButtons: FlutterQuillEmbeds.buttons(
-    tooltips: Tooltips(
-      imageButtonTooltip: 'Insert image',
-      dividerButtonTooltip: 'Insert divider',
-      DataOperationButtonTooltip: 'export/import',
-    ),
-    buttons: Buttons(
-      showImageButton: true,
-      showDividerButton: false,
-      showDataOperationButtonTooltip: true,
-    ),
     mediaPickSettingSelector: MediaPickSetting.gallery,
     useBase64: true,
   ),
@@ -45,7 +35,7 @@ QuillEditor.basic(
   controller: controller,
   readOnly: false,
   embedBuilders: FlutterQuillEmbeds.builders(
-    imageBuilder: (image, options, readOnly) {
+    imageBuilder: (image, attributes, optionsImage, readOnly) {
       if (readOnly) {
         return ClipRRect(
           borderRadius: BorderRadiusDirectional.circular(8.0),
@@ -88,7 +78,11 @@ QuillEditor.basic(
 
 - **Image**: Adds support for image embeds in the Quill editor. You can customize the image view and choose from different size options.
 
+- **Box**: Provides a custom box element in the editor to enhance the content layout.
+
 - **Divider**: Allows you to add a custom line (divider) and customize its attributes, such as color and bold.
+
+- **Table**: Adds support for creating tables in the Quill editor.
 
 - **Export Data**: Easily export editor content to a text file. You can choose to encode the data in base64 format for added security. Note the Export Data only work in `desktop`
 
@@ -104,12 +98,18 @@ Returns a list of embed builders to provide support for custom embeds.
 
 ```dart
 builders({
-  ImageBuilders? imageBuilder,
+  ImageBuilder? imageBuilder,
+  TableBuilder? tableBuilder,
+  BoxBuilder? boxBuilder,
   DefaultSizes? defaultSizes,
 });
 ```
 
-- `imageBuilder`: An optional parameter that allows you to customize the image view. It provides `image` and `options`, `readOnly`,
+- `imageBuilder`: An optional parameter that allows you to customize the image view. It provides `image` and `attrubets` and `options`, `readOnly`,
+
+- `tableBuilder`: An optional parameter that allows you to customize the table view. It provides `attrubets` and `data` and `showEditDialog` and `readOnly`,
+- 
+- `boxBuilder`: An optional parameter that allows you to customize the image view. It provides `attrubets` and `value` and `showEditDialog`, `readOnly`,
 
 - `defaultSizes`: An optional parameter that allows you to customize the default sizes for images.
 
@@ -122,6 +122,7 @@ buttons({
   Tooltips? tooltips,
   Buttons? buttons,
   MediaPickSetting? mediaPickSettingSelector,
+  DataOperationSetting? dataOperationSettingSelector,
   bool useBase64 = false,
 });
 ```
@@ -131,6 +132,8 @@ buttons({
 - `buttons`: An optional parameter that allows you to specify which buttons to display. By default, all are shown.
 
 - `mediaPickSettingSelector`: An optional parameter that allows you to customize media pick when clicking the image button to get an image from the gallery or link.
+
+- `dataOperationSettingSelector`: An optional parameter that allows you to customize data operation when clicking the export/restore button.
 
 - `useBase64`: An optional parameter that specifies whether to encode the data in base64 format when exporting. Set it to `true` to enable base64 encoding and if it is `false`, the data will be exported as a List of JSON.
 
@@ -152,6 +155,23 @@ controller.utils;
 ```dart
 final QuillController controller = QuillController();
 controller.utils.imageUtils;
+```
+
+- `AttributesUtils`: A utility class providing getter methods to access various attributes of the editor content. This class is helpful for retrieving information about the text attributes such as color, background color, bold, italic, underline, strike, header, and sizes.
+
+##### Usage:
+```dart
+final AttributesUtils attributesUtils = AttributesUtils(attributes);
+
+// Accessing attributes
+Color? backgroundColor = attributesUtils.backgroundColor; // Color(0xFFFFFF00)
+Color? textColor = attributesUtils.color; // Color(0xFF0000FF)
+bool isTextBold = attributesUtils.isBold; // true
+bool isTextItalic = attributesUtils.isItalic; // false
+bool isTextStrike = attributesUtils.isStrike; // false
+bool isTextUnderline = attributesUtils.isUnderline; // true
+Header? header = attributesUtils.header; // Header.h1
+Sizes? size = attributesUtils.sizes; // Sizes.large
 ```
 
 - `ColorUtils`: A utility class providing static methods for converting color codes to `Color` objects and vice versa.

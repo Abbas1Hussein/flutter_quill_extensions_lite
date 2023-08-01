@@ -4,6 +4,21 @@ import 'utils.dart';
 
 typedef ImageBuilder = Widget Function(
   Image image,
-  OptionsImage options,
+  AttributesUtils attributes,
+  OptionsImage optionsImage,
+  bool readOnly,
+);
+
+typedef TableBuilder = Widget Function(
+  AttributesUtils attributes,
+  List<List<String>> data,
+  VoidCallback showEditDialog,
+  bool readOnly,
+);
+
+typedef BoxBuilder = Widget Function(
+  AttributesUtils attributes,
+  String value,
+  VoidCallback showEditDialog,
   bool readOnly,
 );

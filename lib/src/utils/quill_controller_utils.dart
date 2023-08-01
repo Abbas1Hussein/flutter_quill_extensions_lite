@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import 'image_utils.dart';
-import 'table_utils.dart';
 import 'utils.dart';
 
 /// A utility class extending `QuillController` to provide additional methods for text manipulation.
@@ -25,7 +24,6 @@ class QuillControllerUtils {
 
   /// Retrieves the base offset of the current selection in the [controller].
   int get index => controller.selection.baseOffset;
-
   /// Retrieves the length of the current selection in the [controller].
   int get length => controller.selection.extentOffset - index;
 
@@ -68,15 +66,18 @@ class QuillControllerUtils {
 
     // add attribute
     if (attribute != null) {
-      controller.document.format(offset, 1, attribute);
+      updateAttribute(attribute);
     }
   }
 
+  /// Updates the attributes of the currently selected in the [controller].
+  void updateAttribute(
+    Attribute<dynamic>? attribute,
+  ) =>
+      controller.document.format(offset, 1, attribute);
+
   /// Provides access to the [ImageUtils] class for handling image attributes and embedding images.
   ImageUtils get imageUtils => ImageUtils(this);
-
-  /// Provides access to the [TableUtils] class for handling table attributes and embedding table.
-  TableUtils get tableUtils => TableUtils(this);
 
   /// Retrieves the style string of the currently selected in the [controller].
   String getStyleString() {

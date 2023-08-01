@@ -20,7 +20,8 @@ class MenuPopupSizeImageClassification extends StatefulWidget {
       _MenuPopupSizeImageClassificationState();
 }
 
-class _MenuPopupSizeImageClassificationState extends State<MenuPopupSizeImageClassification> {
+class _MenuPopupSizeImageClassificationState
+    extends State<MenuPopupSizeImageClassification> {
   late QuillControllerUtils quillControllerUtils;
   late SizeClassification sizeClassification;
 
@@ -91,9 +92,11 @@ class _MenuPopupSizeImageClassificationState extends State<MenuPopupSizeImageCla
   }
 
   void _onTapHandler(SizeClassification element) {
-    quillControllerUtils.controller.moveCursorToPosition(quillControllerUtils.offset);
+    quillControllerUtils.controller
+        .moveCursorToPosition(quillControllerUtils.offset);
 
-    final oldAttribute = quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
+    final oldAttribute =
+        quillControllerUtils.imageUtils.fetchImageAttributesByOffset();
     ImageAttributeModel imageAttributeModel;
 
     if (element == SizeClassification.originalSize) {
@@ -113,8 +116,8 @@ class _MenuPopupSizeImageClassificationState extends State<MenuPopupSizeImageCla
       );
     }
 
-    quillControllerUtils.imageUtils.updateImageAttribute(
-      imageAttributeModel: imageAttributeModel,
+    quillControllerUtils.updateAttribute(
+      imageAttributeModel.toStyleAttribute(),
     );
   }
 

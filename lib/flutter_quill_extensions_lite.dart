@@ -7,6 +7,7 @@ import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
 import 'src/embeds/builders/builders.dart';
+import 'src/toolbar/box_button.dart';
 import 'src/toolbar/toolbar.dart';
 import 'src/utils/utils.dart';
 
@@ -18,9 +19,13 @@ class FlutterQuillEmbeds {
   ///
   /// Parameters:
   /// - [imageBuilder]: An optional parameter that allows you to customize the image view.
+  /// - [tableBuilder]: An optional parameter that allows you to customize the table view.
+  /// - [boxBuilder]:   An optional parameter that allows you to customize the box view.
   /// - [defaultSizes]: An optional parameter that allows you to customize the default sizes for images.
   static List<EmbedBuilder> builders({
     ImageBuilder? imageBuilder,
+    TableBuilder? tableBuilder,
+    BoxBuilder? boxBuilder,
     DefaultSizes? defaultSizes,
   }) {
     if (defaultSizes != null) {
@@ -31,8 +36,9 @@ class FlutterQuillEmbeds {
     }
     return [
       ImageEmbedBuilder(imageBuilder),
+      TableEmbedBuilder(tableBuilder),
+      BoxEmbedBuilder(boxBuilder),
       DividerEmbedBuilder(),
-      TableEmbedBuilder(),
     ];
   }
 
@@ -41,13 +47,18 @@ class FlutterQuillEmbeds {
   /// Parameters:
   /// - [tooltips]: An optional parameter that allows you to customize tooltips for the buttons.
   /// - [buttons]: An optional parameter that allows you to specify which buttons to display.
+  ///
+  /// - [useBase64]: An optional parameter that specifies whether to encode the data in base64 format when exporting.
+  ///   Set it to 'true' to enable base64 encoding and if it is 'false', the data will be exported as a List of JSON.
+  ///
   /// - [mediaPickSettingSelector]: An optional parameter that allows you to customize media pick when clicking the image button.
+  /// - [dataOperationSettingSelector]: An optional parameter that allows you to customize data operation when clicking the export/restore button.
   static List<EmbedButtonBuilder> buttons({
     Tooltips? tooltips,
     Buttons? buttons,
     bool useBase64 = true,
     MediaPickSetting? mediaPickSettingSelector,
-    DataOperationSetting? dataOperationSetting,
+    DataOperationSetting? dataOperationSettingSelector,
   }) {
     return [
       if (buttons == null || buttons.showImageButton)
@@ -67,7 +78,7 @@ class FlutterQuillEmbeds {
           return DataOperationToolbarButton(
             dataOperationSetting: (isMobile() || kIsWeb)
                 ? DataOperationSetting.restore
-                : dataOperationSetting,
+                : dataOperationSettingSelector,
             tooltip: tooltips?.dividerButtonTooltip,
             iconSize: toolbarIconSize,
             controller: controller,
@@ -97,6 +108,17 @@ class FlutterQuillEmbeds {
             iconTheme: iconTheme,
             dialogTheme: dialogTheme,
           );
+        },
+      if (buttons == null || buttons.showBoxButton)
+        (controller, toolbarIconSize, iconTheme, dialogTheme) {
+          return BoxToolbarButton(
+            tooltip: tooltips?.boxButtonTooltip,
+            icon: Icons.rectangle_rounded,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            iconTheme: iconTheme,
+            dialogTheme: dialogTheme,
+          );
         }
     ];
   }
@@ -108,12 +130,14 @@ class Tooltips {
   String? dividerButtonTooltip;
   String? dataOperationButtonTooltip;
   String? tableButtonTooltip;
+  String? boxButtonTooltip;
 
   Tooltips({
     this.dividerButtonTooltip,
     this.imageButtonTooltip,
     this.dataOperationButtonTooltip,
     this.tableButtonTooltip,
+    this.boxButtonTooltip,
   });
 }
 
@@ -123,11 +147,13 @@ class Buttons {
   bool showDividerButton;
   bool showDataOperationButton;
   bool showTableButton;
+  bool showBoxButton;
 
   Buttons({
     this.showImageButton = true,
     this.showDividerButton = true,
     this.showDataOperationButton = true,
     this.showTableButton = true,
+    this.showBoxButton = true,
   });
 }

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
-import 'package:flutter_quill_extensions_lite/src/embeds/view/table/table.dart';
 
 import '../../utils/types.dart';
-import '../custom/table.dart';
+import '../custom/box.dart';
+import '../view/box/box.dart';
 
 /// This class is an implementation of the [EmbedBuilder] interface specific
-/// to rendering Table in the Quill editor.
-class TableEmbedBuilder extends EmbedBuilder {
-  TableEmbedBuilder(this.tableBuilder);
+/// to rendering Box in the Quill editor.
+class BoxEmbedBuilder extends EmbedBuilder {
+  BoxEmbedBuilder(this.boxBuilder);
 
-  final TableBuilder? tableBuilder;
+  final BoxBuilder? boxBuilder;
 
   @override
-  String get key => CustomTableEmbeddable.tableType;
+  String get key => CustomBoxEmbeddable.boxType;
 
   @override
   bool get expanded => false;
@@ -27,11 +27,11 @@ class TableEmbedBuilder extends EmbedBuilder {
     bool inline,
     TextStyle textStyle,
   ) {
-    return TableView(
-      tableBuilder: tableBuilder,
-      attributes: node.style.attributes,
-      controller: controller,
+    return BoxView(
+      boxBuilder: boxBuilder,
       readOnly: readOnly,
+      controller: controller,
+      attributes: node.style.attributes,
     );
   }
 }
