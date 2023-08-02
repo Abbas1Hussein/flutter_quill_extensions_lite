@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
-/// Enumeration representing the alignment options for an image.
-enum AlignmentImage { center, right, left }
+/// Enumeration representing the alignment options for an widget.
+enum AlignmentCLR { center, right, left }
 
-/// Extension on [AlignmentImage] to provide additional functionality for working with image alignments.
-extension AlignmentImageEx on AlignmentImage {
+/// Extension on [AlignmentCLR] to provide additional functionality for working with widget alignments.
+extension AlignmentImageEx on AlignmentCLR {
   /// Returns the name of the alignment as a string.
   String get name {
     switch (this) {
-      case AlignmentImage.center:
+      case AlignmentCLR.center:
         return 'center';
-      case AlignmentImage.left:
+      case AlignmentCLR.left:
         return 'left';
-      case AlignmentImage.right:
+      case AlignmentCLR.right:
         return 'right';
     }
   }
 
-  /// Gets the [AlignmentImage] corresponding to the given [alignment] string.
-  /// Returns the appropriate alignment value or [AlignmentImage.center] if no match is found.
-  static AlignmentImage getAlignment(String alignment) {
-    return AlignmentImage.values.firstWhere(
+  /// Gets the [AlignmentCLR] corresponding to the given [alignment] string.
+  /// Returns the appropriate alignment value or [AlignmentCLR.center] if no match is found.
+  static AlignmentCLR getAlignment(String alignment) {
+    return AlignmentCLR.values.firstWhere(
       (element) => element.name.contains(alignment),
     );
   }
@@ -28,11 +28,11 @@ extension AlignmentImageEx on AlignmentImage {
   /// Returns the [AlignmentGeometry] corresponding to the alignment option.
   AlignmentGeometry get alignmentGeometry {
     switch (this) {
-      case AlignmentImage.center:
+      case AlignmentCLR.center:
         return Alignment.center;
-      case AlignmentImage.left:
+      case AlignmentCLR.left:
         return Alignment.centerLeft;
-      case AlignmentImage.right:
+      case AlignmentCLR.right:
         return Alignment.centerRight;
     }
   }

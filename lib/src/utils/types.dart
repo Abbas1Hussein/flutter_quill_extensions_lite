@@ -22,3 +22,5 @@ typedef BoxBuilder = Widget Function(
   VoidCallback showEditDialog,
   bool readOnly,
 );
+
+typedef DividerBuilder = Divider Function(AttributesUtils attributes, bool readOnly);

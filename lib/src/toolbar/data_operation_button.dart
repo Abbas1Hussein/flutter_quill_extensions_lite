@@ -78,24 +78,25 @@ class DataOperationToolbarButton extends StatelessWidget {
   Future<void> _onPressedHandler(BuildContext context) async {
     if (dataOperationSetting == null) {
       // If the dataOperationSetting is not provided, show the DataOperationSelect dialog
-      final source = await const DataOperationSelect().show(context);
-      if (source != null) {
-        // If the user selects an option from the dialog, perform the corresponding data operation
-        if (source == DataOperationSetting.export) {
-          handleExportDataOperation();
-        } else {
-          handleRestoreDataOperation();
+      await const DataOperationSelect().show(context).then((source) {
+        if (source != null) {
+          // If the user selects an option from the dialog, perform the corresponding data operation
+          if (source == DataOperationSetting.export) {
+            handleExportDataOperation(context);
+          } else {
+            handleRestoreDataOperation(context);
+          }
         }
-      }
+      });
     } else if (dataOperationSetting == DataOperationSetting.export) {
-      handleExportDataOperation();
+      handleExportDataOperation(context);
     } else {
-      handleRestoreDataOperation();
+      handleRestoreDataOperation(context);
     }
   }
 
 // Export Data logic
-  Future<void> handleExportDataOperation() async {
+  Future<void> handleExportDataOperation(BuildContext context) async {
     try {
       // Get the JSON data from the controller
       final data = useBase64
@@ -115,12 +116,13 @@ class DataOperationToolbarButton extends StatelessWidget {
         await file.writeAsString(data);
       }
     } catch (e) {
+      _showSnackBar('Error exporting data: $e', context);
       throw Exception('Error exporting data: $e');
     }
   }
 
   // Restore Data logic
-  Future<void> handleRestoreDataOperation() async {
+  Future<void> handleRestoreDataOperation(BuildContext context) async {
     try {
       // Prompt the user to choose the file location and name
       final result = await FilePicker.platform.pickFiles(
@@ -132,7 +134,6 @@ class DataOperationToolbarButton extends StatelessWidget {
         final file = File(result.files.single.path!);
 
         final data = await file.readAsString();
-
         if (ValidatorUtils.isBase64(data)) {
           controller.utils.insert(jsonDecode(utf8.decode(base64Decode(data))));
         } else {
@@ -140,7 +141,14 @@ class DataOperationToolbarButton extends StatelessWidget {
         }
       }
     } catch (e) {
+      _showSnackBar('Error restoring data: $e', context);
       throw Exception('Error restoring data: $e');
     }
+  }
+
+  void _showSnackBar(String message, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 }

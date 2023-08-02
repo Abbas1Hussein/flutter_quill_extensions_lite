@@ -3,9 +3,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import 'image_utils.dart';
-import 'utils.dart';
-
 /// A utility class extending `QuillController` to provide additional methods for text manipulation.
 class QuillControllerUtils {
   final QuillController controller;
@@ -24,15 +21,22 @@ class QuillControllerUtils {
 
   /// Retrieves the base offset of the current selection in the [controller].
   int get index => controller.selection.baseOffset;
+
   /// Retrieves the length of the current selection in the [controller].
   int get length => controller.selection.extentOffset - index;
 
   /// Returns the JSON representation of the [controller]'s document.
-  String get data => jsonEncode(controller.document.toDelta().toJson());
+  String get data {
+    return jsonEncode(controller.document.toDelta().toJson());
+  }
 
   /// Inserts a [List] of [dynamic] JSON data into the [controller]'s document.
-  void insert(List<dynamic> json) =>
-      controller.document = Document.fromJson(json);
+  void insert(List<dynamic> json) {
+    controller.document = Document.fromJson(json);
+  }
+
+  /// move Cursor To select Position.
+  void moveCursorToOffset() => controller.moveCursorToPosition(offset);
 
   /// Copies the JSON data of the [controller]'s document to the clipboard.
   void copy() => Clipboard.setData(ClipboardData(text: data));
@@ -75,9 +79,6 @@ class QuillControllerUtils {
     Attribute<dynamic>? attribute,
   ) =>
       controller.document.format(offset, 1, attribute);
-
-  /// Provides access to the [ImageUtils] class for handling image attributes and embedding images.
-  ImageUtils get imageUtils => ImageUtils(this);
 
   /// Retrieves the style string of the currently selected in the [controller].
   String getStyleString() {

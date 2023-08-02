@@ -74,9 +74,9 @@ class ImageToolbarButton extends StatelessWidget {
   }
 
   /// For pickedImage logic
-  Future<void> handleImageButtonTap(
-  ) async {
-    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+  Future<void> handleImageButtonTap() async {
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       final bytes = (await pickedImage.readAsBytes());
 
@@ -88,18 +88,18 @@ class ImageToolbarButton extends StatelessWidget {
 
   /// add image with default property such as [height] and [width]
   void _addImage(String url) {
-    final image = controller.utils.imageUtils.imageByUrl(url);
+    final image = ImageUtils.imageByUrl(url);
     image.image.resolve(const ImageConfiguration()).addListener(
       ImageStreamListener(
         (ImageInfo info, _) {
           controller.utils.addValue(
             BlockEmbed.image(url),
-            ImageAttributeModel(
+            ImageModel(
               width: info.image.height,
               height: info.image.width,
-              alignment: AlignmentImage.center,
-              boxFit: BoxFit.none,
-            ).toStyleAttribute(),
+              alignment: AlignmentCLR.center,
+              boxFit: BoxFit.scaleDown,
+            ).toAttribute(),
           );
           controller.moveCursorToPosition(controller.utils.offset);
         },

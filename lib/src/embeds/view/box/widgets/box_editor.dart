@@ -8,8 +8,11 @@ class BoxWriteEditValue extends StatefulWidget {
   final String? value;
   final QuillController quillController;
 
-  const BoxWriteEditValue(
-      {super.key, this.value, required this.quillController});
+  const BoxWriteEditValue({
+    super.key,
+    this.value,
+    required this.quillController,
+  });
 
   @override
   State<BoxWriteEditValue> createState() => _BoxWriteEditValueState();
@@ -54,7 +57,5 @@ class _BoxWriteEditValueState extends State<BoxWriteEditValue> {
     controller.dispose();
   }
 
-  Attribute get _attributes {
-    return Attribute('value', AttributeScope.INLINE, controller.text.trim());
-  }
+  Attribute get _attributes => DataAttribute(controller.text.trim());
 }

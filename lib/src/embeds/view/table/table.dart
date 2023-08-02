@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import '../../../utils/utils.dart';
-import 'widget/table_editor_dialog.dart';
+import 'widget/table_edit_data.dart';
 
 const kEdgeInsets8 = EdgeInsets.all(8.0);
 
@@ -34,7 +34,11 @@ class TableView extends StatelessWidget {
         shape: const RoundedRectangleBorder(),
         color: attributesUtils.backgroundColor,
         child: GestureDetector(
-          onLongPress: () => _showTableAddEditValueDialog(context),
+          onLongPress: () {
+            if (!readOnly) {
+              _showTableAddEditValueDialog(context);
+            }
+          },
           child: Table(
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             border: TableBorder.all(
@@ -51,41 +55,33 @@ class TableView extends StatelessWidget {
   void _showTableAddEditValueDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => TableAddEditValue(tableModel: tableModel, controller: controller),
+      builder: (context) =>
+          TableAddEditData(tableModel: tableModel, controller: controller),
     ).then((value) {
       controller.moveCursorToPosition(controller.utils.offset);
     });
   }
 
   TableModel get tableModel {
-    return TableModel.fromJson(attributes['tableAttribute']!.value);
+    return TableModel.fromJson(attributes['data']!.value);
   }
 
   List<TableRow> get buildDataTableRows {
     return tableModel.data.asMap().entries.map(
       (entry) {
-        final rowData = entry.value;
-
         return TableRow(
-          children: [
-            ...rowData.map(
-              (value) {
-                return Padding(
-                  padding: kEdgeInsets8,
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                      fontWeight: attributesUtils.isBold ? FontWeight.bold : null,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              },
-            ).toList(),
-          ],
+          children: entry.value.map((value) => _buildTextValue(value)).toList(),
         );
       },
     ).toList();
+  }
+
+  Widget _buildTextValue(String value) {
+    return Padding(
+      padding: kEdgeInsets8,
+      child: Text(value,
+          style: attributesUtils.style, textAlign: TextAlign.center),
+    );
   }
 
   AttributesUtils get attributesUtils => AttributesUtils(attributes);

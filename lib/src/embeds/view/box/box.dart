@@ -24,8 +24,7 @@ class BoxView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     if (boxBuilder != null) {
-      return boxBuilder!(attributesUtils, value,
-          () => showBoxWriteEditValueDialog(context), readOnly);
+      return boxBuilder!(attributesUtils, value, () => showBoxWriteEditValueDialog(context), readOnly);
     } else {
       return Container(
         margin: kEdgeInsets8,
@@ -74,16 +73,10 @@ class BoxView extends StatelessWidget {
   }
 
   Widget _buildTextWithAttributes() {
-    return Text(
-      value,
-      style: TextStyle(
-        color: attributesUtils.color,
-        fontWeight: attributesUtils.isBold ? FontWeight.bold : null,
-      ),
-    );
+    return Text(value, style: attributesUtils.style);
   }
 
-  String get value => attributes['value']!.value;
+  String get value => attributes[Attribute.data.key]!.value;
 
   AttributesUtils get attributesUtils => AttributesUtils(attributes);
 }

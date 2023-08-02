@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import '../embeds/view/dialogs/remove.dart';
@@ -10,19 +9,15 @@ import 'utils.dart';
 
 /// A utility class providing methods for handling image attributes and embedding images.
 class ImageUtils {
-  final QuillControllerUtils _quillControllerUtils;
-
-  ImageUtils(this._quillControllerUtils);
-
-
-  /// Generates an [Image] widget based on the provided [imageUrl], [width], [height], and [alignment].
-  Image imageByUrl(
+  /// Generates an [Image] widget based on the provided [imageUrl], [width], [height], and [alignmentImageButton].
+  static Image imageByUrl(
     String imageUrl, [
-    ImageAttributeModel? imageAttributeModel,
+    ImageModel? imageAttributeModel,
   ]) {
     final width = imageAttributeModel?.width.toDouble();
     final height = imageAttributeModel?.height.toDouble();
-    final alignment = imageAttributeModel?.alignment.alignmentGeometry ?? Alignment.center;
+    final alignment =
+        imageAttributeModel?.alignment.alignmentGeometry ?? Alignment.center;
     final boxFit = imageAttributeModel?.boxFit;
     if (ValidatorUtils.isImageBase64(imageUrl)) {
       return Image.memory(
@@ -51,45 +46,27 @@ class ImageUtils {
       fit: boxFit,
     );
   }
-
-  /// Parses the image attributes from the provided [s] string and returns an [ImageAttributeModel].
-  ImageAttributeModel? fetchImageAttributeByString(String s) {
-    Map<String, String> atr = parseKeyValuePairs(s, {
-      'width',
-      'height',
-      'alignment',
-      'boxFit',
-    });
-    if (atr.isEmpty) return null;
-
-    return ImageAttributeModel.fromJson(atr);
-  }
-
-  /// Fetches the image attributes of the currently selected image in the [QuillController].
-  ImageAttributeModel? fetchImageAttributesByOffset() {
-    return fetchImageAttributeByString(_quillControllerUtils.getStyleString());
-  }
 }
 
 /// Model class representing image attributes like width, height, and alignment.
-class ImageAttributeModel {
+class ImageModel {
   final int width;
   final int height;
-  final AlignmentImage alignment;
+  final AlignmentCLR alignment;
   final BoxFit boxFit;
 
-  ImageAttributeModel({
+  ImageModel({
     required this.width,
     required this.height,
     required this.alignment,
     required this.boxFit,
   });
 
-  /// Creates an [ImageAttributeModel] from a JSON map.
-  factory ImageAttributeModel.fromJson(Map<String, dynamic> json) {
-    return ImageAttributeModel(
-      height: int.parse(json['height']),
-      width: int.parse(json['width']),
+  /// Creates an [ImageModel] from a JSON map.
+  factory ImageModel.fromJson(Map<String, dynamic> json) {
+    return ImageModel(
+      height: json['height'],
+      width: json['width'],
       alignment: AlignmentImageEx.getAlignment(json['alignment']),
       boxFit: BoxFit.values.firstWhere(
         (element) => element.name.contains(json['boxFit']),
@@ -97,16 +74,22 @@ class ImageAttributeModel {
     );
   }
 
-  /// Converts the [ImageAttributeModel] to a [StyleAttribute] object for formatting in the editor.
-  StyleAttribute toStyleAttribute() {
-    return StyleAttribute(
-      "width: $width; height: $height; alignment: ${alignment.name}; boxFit: ${boxFit.name};",
-    );
+  /// Converts the [ImageModel] to a JSON map.
+  Map<String, dynamic> toJson() {
+    return {
+      'width': width,
+      'height': height,
+      'alignment': alignment.name,
+      'boxFit': boxFit.name
+    };
   }
+
+  /// Converts the [ImageModel] to a [StyleAttribute] object for formatting in the editor.
+  Attribute toAttribute() => DataAttribute(toJson());
 }
 
 /// class representing options dialog that controller in image like
-/// * ---> [SizeClassification], [AlignmentImage], [BoxFit], [RemoveOption].
+/// * ---> [SizeClassification], [Alignment], [BoxFit], [RemoveOption].
 class OptionsImage {
   final Widget sizeClassification;
   final Widget alignment;

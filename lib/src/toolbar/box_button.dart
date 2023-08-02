@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill_extensions_lite/src/embeds/custom/box.dart';
 
 import '../embeds/view/box/widgets/box_editor.dart';
-import '../utils/quill_controller_utils.dart';
 
 /// A button widget for adding box to the Quill editor toolbar.
 class BoxToolbarButton extends StatelessWidget {

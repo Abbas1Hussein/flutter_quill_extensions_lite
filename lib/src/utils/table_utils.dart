@@ -36,7 +36,5 @@ class TableModel {
   }
 
   /// Converts the [TableModel] to a [Attribute] object for formatting in the editor.
-  Attribute toAttribute() {
-    return Attribute('tableAttribute', AttributeScope.INLINE, toJson());
-  }
+  Attribute toAttribute() => DataAttribute(toJson());
 }

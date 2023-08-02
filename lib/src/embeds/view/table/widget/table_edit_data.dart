@@ -5,28 +5,30 @@ import 'package:flutter_quill_extensions_lite/src/embeds/custom/table.dart';
 
 import 'alphabet_letters_table_row.dart';
 import 'editor_table_rows.dart';
-import 'numbers_table_row.dart';
 
-class TableAddEditValue extends StatefulWidget {
+class TableAddEditData extends StatefulWidget {
   final TableModel tableModel;
   final QuillController controller;
 
-  const TableAddEditValue({
+  const TableAddEditData({
     Key? key,
     required this.tableModel,
     required this.controller,
   }) : super(key: key);
 
   @override
-  TableAddEditValueState createState() => TableAddEditValueState();
+  TableAddEditDataState createState() => TableAddEditDataState();
 }
 
-class TableAddEditValueState extends State<TableAddEditValue> {
+class TableAddEditDataState extends State<TableAddEditData> {
   late TableModel tableModel;
 
   late List<List<TextEditingController>> _table;
 
   final List<bool> tableLockStatus = [false];
+
+  int? currentIndexColumn;
+  int? currentIndexRow;
 
   @override
   void initState() {
@@ -39,7 +41,6 @@ class TableAddEditValueState extends State<TableAddEditValue> {
     final size = MediaQuery.sizeOf(context);
     return AlertDialog(
       content: SizedBox(
-        height: size.height,
         width: size.width,
         child: SingleChildScrollView(
           child: Table(
@@ -55,8 +56,7 @@ class TableAddEditValueState extends State<TableAddEditValue> {
                 addRow: _addRow,
                 deleteRow: (index) => _removeRow(index),
                 toggleLockRow: (index) => _toggleLockRow(index),
-              ).buildEditorTableRows(),
-              NumbersTableRow(rowNumber: tableModel.rowNumber),
+              ).buildEditorTableRows(context),
             ],
           ),
         ),
@@ -94,11 +94,6 @@ class TableAddEditValueState extends State<TableAddEditValue> {
 
   /// Removes a row from the table.
   void _removeRow(int index) {
-    if (index == 0) {
-      widget.controller.moveCursorToPosition(widget.controller.utils.offset);
-      widget.controller.utils.removeValue();
-    }
-
     setState(() {
       _table.removeAt(index);
       tableLockStatus.removeAt(index);

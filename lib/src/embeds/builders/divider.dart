@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
+import '../../utils/types.dart';
 import '../custom/divider.dart';
 import '../view/divider/divider.dart';
 
 class DividerEmbedBuilder extends EmbedBuilder {
+  DividerEmbedBuilder(this.dividerBuilder);
+
+  final DividerBuilder? dividerBuilder;
+
   @override
   String get key => CustomDividerEmbeddable.dividerType;
 
@@ -17,6 +22,10 @@ class DividerEmbedBuilder extends EmbedBuilder {
     bool inline,
     TextStyle textStyle,
   ) {
-    return DividerView(attributes: node.style.attributes);
+    return DividerView(
+      readOnly: readOnly,
+      attributes: node.style.attributes,
+      dividerBuilder: dividerBuilder,
+    );
   }
 }

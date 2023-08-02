@@ -27,7 +27,7 @@ class EditorTableRows {
         _table = table,
         _tableModel = tableModel;
 
-  List<TableRow> buildEditorTableRows() {
+  List<TableRow> buildEditorTableRows(BuildContext context) {
     return _table.asMap().entries.map(
       (entry) {
         final index = entry.key;
@@ -39,43 +39,56 @@ class EditorTableRows {
             TextTable(('${index + 1}')),
             ...rowData.map(
               (controller) {
-                final j = rowData.indexOf(controller);
-                final data = _tableModel.data.isNotEmpty
-                    ? _tableModel.data[index][j]
-                    : '';
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Builder(builder: (context) {
-                    if (_tableModel.data.isNotEmpty &&
-                        controller.text.isEmpty) {
-                      controller.text = data;
-                    }
-                    return TextField(
-                      controller: controller,
-                      enabled: !isRowLocked,
-                      onTapOutside: (event) => FocusScope.of(context).unfocus(),
-                      decoration: const InputDecoration(
-                          border: InputBorder.none, filled: true),
-                      mouseCursor: SystemMouseCursors.click,
-                    );
-                  }),
-                );
+                final offsetController = rowData.indexOf(controller);
+                if (_tableModel.data.isNotEmpty && controller.text.isEmpty) {
+                  final data = _tableModel.data.isNotEmpty
+                      ? _tableModel.data[index][offsetController]
+                      : '';
+                  controller.text = data;
+                }
+                return _buildTextField(controller, isRowLocked, context);
               },
             ).toList(),
-            _buildButtonsOption(index, isRowLocked),
+            _buildButtonsOption(index, isRowLocked, context),
           ],
         );
       },
     ).toList();
   }
 
-  Widget _buildButtonsOption(int index, bool isRowLocked) {
+  Widget _buildTextField(
+    TextEditingController controller,
+    bool isRowLocked,
+    BuildContext context,
+  ) => Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: TextField(
+        controller: controller,
+        enabled: !isRowLocked,
+        onTapOutside: (event) => FocusScope.of(context).unfocus(),
+        maxLines: 5,
+        minLines: 1,
+        maxLength: 350,
+        decoration: const InputDecoration(border: InputBorder.none),
+        mouseCursor: SystemMouseCursors.click,
+      ),
+    );
+
+  Widget _buildButtonsOption(int index, bool isRowLocked, BuildContext context) {
     return FittedBox(
       fit: _tableModel.rowNumber <= 2 ? BoxFit.scaleDown : BoxFit.contain,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildButton(() => _deleteRow?.call(index), Icons.remove),
+          _buildButton(() {
+            if (index == 0 && _table.length <= 1) {
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              }
+            } else {
+              _deleteRow?.call(index);
+            }
+          }, Icons.remove),
           _buildButton(
             () => _toggleLockRow?.call(index),
             isRowLocked ? Icons.lock_open : Icons.lock,

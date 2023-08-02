@@ -18,14 +18,16 @@ class FlutterQuillEmbeds {
   /// Returns a list of embed builders to provide support for custom embeds.
   ///
   /// Parameters:
-  /// - [imageBuilder]: An optional parameter that allows you to customize the image view.
-  /// - [tableBuilder]: An optional parameter that allows you to customize the table view.
-  /// - [boxBuilder]:   An optional parameter that allows you to customize the box view.
-  /// - [defaultSizes]: An optional parameter that allows you to customize the default sizes for images.
+  /// - [boxBuilder]: used to customize the box view.
+  /// - [imageBuilder]: used to customize the image view.
+  /// - [tableBuilder]: used to customize the table view.
+  /// - [dividerBuilder]: used to customize the dividerBuilder view.
+  /// - [defaultSizes]: used to customize the default sizes for widgets support.
   static List<EmbedBuilder> builders({
+    BoxBuilder? boxBuilder,
     ImageBuilder? imageBuilder,
     TableBuilder? tableBuilder,
-    BoxBuilder? boxBuilder,
+    DividerBuilder? dividerBuilder,
     DefaultSizes? defaultSizes,
   }) {
     if (defaultSizes != null) {
@@ -35,10 +37,10 @@ class FlutterQuillEmbeds {
       instance.updateLarge(defaultSizes.large);
     }
     return [
+      BoxEmbedBuilder(boxBuilder),
       ImageEmbedBuilder(imageBuilder),
       TableEmbedBuilder(tableBuilder),
-      BoxEmbedBuilder(boxBuilder),
-      DividerEmbedBuilder(),
+      DividerEmbedBuilder(dividerBuilder),
     ];
   }
 
@@ -87,17 +89,6 @@ class FlutterQuillEmbeds {
             useBase64: useBase64,
           );
         },
-      if (buttons == null || buttons.showDividerButton)
-        (controller, toolbarIconSize, iconTheme, dialogTheme) {
-          return DividerToolbarButton(
-            tooltip: tooltips?.dividerButtonTooltip,
-            icon: Icons.horizontal_rule_rounded,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            iconTheme: iconTheme,
-            dialogTheme: dialogTheme,
-          );
-        },
       if (buttons == null || buttons.showTableButton)
         (controller, toolbarIconSize, iconTheme, dialogTheme) {
           return TableToolbarButton(
@@ -119,7 +110,18 @@ class FlutterQuillEmbeds {
             iconTheme: iconTheme,
             dialogTheme: dialogTheme,
           );
-        }
+        },
+      if (buttons == null || buttons.showDividerButton)
+        (controller, toolbarIconSize, iconTheme, dialogTheme) {
+          return DividerToolbarButton(
+            tooltip: tooltips?.dividerButtonTooltip,
+            icon: Icons.horizontal_rule_rounded,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            iconTheme: iconTheme,
+            dialogTheme: dialogTheme,
+          );
+        },
     ];
   }
 }

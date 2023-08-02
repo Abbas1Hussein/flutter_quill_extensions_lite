@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../utils/utils.dart';
-import '../table/widget/table_editor_dialog.dart';
+import '../table/widget/table_edit_data.dart';
 
 class TableSizeSelect extends StatefulWidget {
   final QuillControllerUtils quillController;
@@ -69,7 +69,7 @@ class _TableSizeSelectState extends State<TableSizeSelect> {
               showDialog(
                 barrierDismissible: false,
                 context: context,
-                builder: (context) => TableAddEditValue(
+                builder: (context) => TableAddEditData(
                   controller: widget.quillController.controller,
                   tableModel: tableSizesModel!,
                 ),

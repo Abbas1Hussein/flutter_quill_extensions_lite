@@ -5,9 +5,7 @@ import 'text.dart';
 class AlphabetLettersTableRow extends TableRow {
   final int rowNumber;
 
-  const AlphabetLettersTableRow({
-    required this.rowNumber,
-  });
+  const AlphabetLettersTableRow({required this.rowNumber});
 
   @override
   List<Widget> get children {
