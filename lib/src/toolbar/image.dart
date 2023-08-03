@@ -1,14 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_quill/translations.dart';
-import 'package:image_picker/image_picker.dart';
 
-import '../embeds/view/dialogs/media_pick_select.dart';
 import '../common/common.dart';
+import '../embeds/view/dialogs/media_pick_select.dart';
 
 /// A button widget for adding images to the Quill editor toolbar.
 class ImageToolbarButton extends StatelessWidget {
@@ -76,14 +77,18 @@ class ImageToolbarButton extends StatelessWidget {
 
   /// For pickedImage logic
   Future<void> handleImageButtonTap() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage = await FilePicker.platform.pickFiles(
+      allowedExtensions: ImageUtils.allowedExtensions,
+      type: FileType.image,
+    );
     if (pickedImage != null) {
-      final bytes = (await pickedImage.readAsBytes());
-
-      final value = kIsWeb ? base64.encode(bytes) : pickedImage.path;
-
-      _addImage(value);
+      final file = File(pickedImage.files.single.path!);
+      if (kIsWeb) {
+        final bytes = (await file.readAsBytes());
+        _addImage(base64.encode(bytes));
+      } else {
+        _addImage(file.path);
+      }
     }
   }
 

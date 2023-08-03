@@ -4,11 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../embeds/view/dialogs/remove.dart';
-import '../model/image.dart';
 import '../common.dart';
 
 /// A utility class providing methods for handling image attributes and embedding images.
 class ImageUtils {
+  ImageUtils._();
+
   /// Generates an [Image] widget based on the provided [imageUrl], [width], [height], and [alignmentImageButton].
   static Image imageByUrl(
     String imageUrl, [
@@ -46,6 +47,18 @@ class ImageUtils {
       fit: boxFit,
     );
   }
+
+  static const List<String> allowedExtensions = [
+    'png',
+    'jpg',
+    'jpeg',
+    'gif',
+    'webp',
+    'bmp',
+    'tiff',
+    'heic',
+    'heif',
+  ];
 }
 
 /// class representing options dialog that controller in image like

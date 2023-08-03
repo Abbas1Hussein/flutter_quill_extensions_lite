@@ -1,5 +1,5 @@
-export  'data_operation_button.dart';
-export 'divider_button.dart';
-export 'image_button.dart';
-export 'table_button.dart';
-export 'box_button.dart';
+export 'data_operation.dart';
+export 'divider.dart';
+export 'image.dart';
+export 'table.dart';
+export 'box.dart';

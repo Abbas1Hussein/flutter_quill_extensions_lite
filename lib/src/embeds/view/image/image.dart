@@ -65,10 +65,13 @@ class _ImageWrapperViewState extends State<ImageWrapperView> {
       );
     } else {
       return GestureDetector(
+        onTap: () {
+          if (widget.isReadOnly) {
+            showImagePreview(context, _image);
+          }
+        },
         onLongPress: () {
           if (!widget.isReadOnly) {
-            showImagePreview(context, _image);
-          } else {
             _showSimpleDialog(context);
           }
         },
