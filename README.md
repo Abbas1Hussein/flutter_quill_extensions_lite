@@ -1,6 +1,5 @@
  Flutter package that provides additional features and enhancements to the `flutter_quill` package, which is a rich text editor for Flutter applications. This package adds support for custom embeds like images and allows for easy export and restore of editor content. Here's a brief overview of the installation, features, and API reference:
-
-
+ 
 ## Usage
 
 Import the required packages and use the `FlutterQuillEmbeds` class to add custom embeds and toolbar buttons:
@@ -57,7 +56,7 @@ builders({
 - `imageBuilder`: allows you to customize the image view. It provides `image` and `attrubets` and `options`, `readOnly`,
 
 - `tableBuilder`: allows you to customize the table view. It provides `attrubets` and `data` and `showEditDialog` and `readOnly`,
-- 
+
 - `boxBuilder`: allows you to customize the box view. It provides `attrubets` and `value` and `showEditDialog`, `readOnly`,
 
 - `defaultSizes`: allows you to customize the default sizes for widgets supported.
