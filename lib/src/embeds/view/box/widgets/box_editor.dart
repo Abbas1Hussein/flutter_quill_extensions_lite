@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../../../../utils/utils.dart';
+import '../../../../common/common.dart';
 import '../../../custom/box.dart';
 
 class BoxWriteEditValue extends StatefulWidget {

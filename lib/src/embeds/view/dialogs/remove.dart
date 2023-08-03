@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/translations.dart';
 
-import '../../../utils/quill_controller_utils.dart';
+import '../../../common/common.dart';
 import 'simple.dart';
 
 class RemoveOption extends StatelessWidget {
@@ -21,7 +21,7 @@ class RemoveOption extends StatelessWidget {
       text: 'Remove'.i18n,
       onPressed: () {
         controller.utils.removeValue();
-        if (Navigator.canPop(context)){
+        if (Navigator.canPop(context)) {
           Navigator.pop(context);
         }
       },

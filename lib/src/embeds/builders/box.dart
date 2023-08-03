@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../../utils/types.dart';
+import '../../common/types.dart';
 import '../custom/box.dart';
 import '../view/box/box.dart';
 

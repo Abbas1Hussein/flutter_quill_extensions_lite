@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../../../utils/utils.dart';
+import '../../../common/common.dart';
 import 'widget/table_edit_data.dart';
 
-const kEdgeInsets8 = EdgeInsets.all(8.0);
+const _kEdgeInsets8 = EdgeInsets.all(8.0);
 
 class TableView extends StatelessWidget {
   final bool readOnly;
@@ -62,9 +62,7 @@ class TableView extends StatelessWidget {
     });
   }
 
-  TableModel get tableModel {
-    return TableModel.fromJson(attributes['data']!.value);
-  }
+  TableModel get tableModel => TableModel.fromJson(attributesUtils.data!);
 
   List<TableRow> get buildDataTableRows {
     return tableModel.data.asMap().entries.map(
@@ -78,11 +76,13 @@ class TableView extends StatelessWidget {
 
   Widget _buildTextValue(String value) {
     return Padding(
-      padding: kEdgeInsets8,
+      padding: _kEdgeInsets8,
       child: Text(value,
           style: attributesUtils.style, textAlign: TextAlign.center),
     );
   }
 
-  AttributesUtils get attributesUtils => AttributesUtils(attributes);
+  AttributesUtils<Map<String, dynamic>> get attributesUtils {
+    return AttributesUtils<Map<String, dynamic>>(attributes);
+  }
 }

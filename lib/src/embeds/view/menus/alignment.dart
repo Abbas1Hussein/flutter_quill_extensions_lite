@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart' hide Alignment;
 
-import '../../../utils/utils.dart';
+import '../../../common/common.dart';
 import 'menu.dart';
 
 class MenuPopupAlignment extends StatelessWidget {
   final QuillControllerUtils quillControllerUtils;
-  final ValueChanged<(dynamic data, AlignmentCLR e)> onChange;
+  final ValueChanged<(dynamic data, AlignmentCRL e)> onChange;
   final String alignmentName;
 
   const MenuPopupAlignment({
@@ -21,7 +21,7 @@ class MenuPopupAlignment extends StatelessWidget {
       quillControllerUtils: quillControllerUtils,
       onSelectValue: (value) => onChange(value),
       value: AlignmentImageEx.getAlignment(alignmentName),
-      list: AlignmentCLR.values,
+      list: AlignmentCRL.values,
       icon: Icons.format_align_center_rounded,
       color: Colors.red.shade200,
       text: 'alignment',

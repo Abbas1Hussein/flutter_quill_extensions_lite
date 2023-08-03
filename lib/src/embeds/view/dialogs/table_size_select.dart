@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/utils.dart';
+import '../../../common/common.dart';
 import '../table/widget/table_edit_data.dart';
 
 class TableSizeSelect extends StatefulWidget {

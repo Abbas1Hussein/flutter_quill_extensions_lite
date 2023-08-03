@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../../../utils/utils.dart';
+import '../../../common/common.dart';
 
 class DividerView extends StatelessWidget {
   final bool readOnly;
@@ -22,7 +22,8 @@ class DividerView extends StatelessWidget {
       return dividerBuilder!(attributesUtils, readOnly);
     } else {
       return Divider(
-        color: attributesUtils.color ?? (brightness == Brightness.dark ? Colors.white : Colors.black),
+        color: attributesUtils.color ??
+            (brightness == Brightness.dark ? Colors.white : Colors.black),
         thickness: attributesUtils.isBold ? 5 : null,
       );
     }

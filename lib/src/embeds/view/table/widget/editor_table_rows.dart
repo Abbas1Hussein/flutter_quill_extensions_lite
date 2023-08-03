@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../utils/table_utils.dart';
+import '../../../../common/common.dart';
 import 'text.dart';
 
 class EditorTableRows {
@@ -60,19 +60,20 @@ class EditorTableRows {
     TextEditingController controller,
     bool isRowLocked,
     BuildContext context,
-  ) => Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: TextField(
-        controller: controller,
-        enabled: !isRowLocked,
-        onTapOutside: (event) => FocusScope.of(context).unfocus(),
-        maxLines: 5,
-        minLines: 1,
-        maxLength: 350,
-        decoration: const InputDecoration(border: InputBorder.none),
-        mouseCursor: SystemMouseCursors.click,
-      ),
-    );
+  ) =>
+      Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: TextField(
+          controller: controller,
+          enabled: !isRowLocked,
+          onTapOutside: (event) => FocusScope.of(context).unfocus(),
+          maxLines: 5,
+          minLines: 1,
+          maxLength: 350,
+          decoration: const InputDecoration(border: InputBorder.none),
+          mouseCursor: SystemMouseCursors.click,
+        ),
+      );
 
   Widget _buildButtonsOption(int index, bool isRowLocked, BuildContext context) {
     return FittedBox(

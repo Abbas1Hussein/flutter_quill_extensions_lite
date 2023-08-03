@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class TextTable extends StatelessWidget {
   final String src;
 
-  const TextTable(
-    this.src, {
-    super.key,
-  });
+  const TextTable(this.src, {super.key});
 
   @override
   Widget build(BuildContext context) {

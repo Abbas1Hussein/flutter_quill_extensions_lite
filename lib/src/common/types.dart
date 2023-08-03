@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'utils.dart';
+import 'common.dart';
 
 typedef ImageBuilder = Widget Function(
   Image image,

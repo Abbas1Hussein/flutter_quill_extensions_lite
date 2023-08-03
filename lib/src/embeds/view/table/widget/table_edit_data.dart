@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
-import 'package:flutter_quill_extensions_lite/flutter_quill_extensions_lite.dart';
-import 'package:flutter_quill_extensions_lite/src/embeds/custom/table.dart';
 
+import '../../../../common/common.dart';
+import '../../../custom/table.dart';
 import 'alphabet_letters_table_row.dart';
 import 'editor_table_rows.dart';
 
@@ -26,9 +26,6 @@ class TableAddEditDataState extends State<TableAddEditData> {
   late List<List<TextEditingController>> _table;
 
   final List<bool> tableLockStatus = [false];
-
-  int? currentIndexColumn;
-  int? currentIndexRow;
 
   @override
   void initState() {
@@ -141,12 +138,16 @@ class TableAddEditDataState extends State<TableAddEditData> {
           ).toAttribute(),
         );
       }
-    } catch (_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('you must selected position to insert table'),
-        ),
-      );
+    } catch (error) {
+      if (error.toString().contains('offset')) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('you must selected position to insert table'),
+          ),
+        );
+      } else {
+        throw Exception(error.toString());
+      }
     }
   }
 

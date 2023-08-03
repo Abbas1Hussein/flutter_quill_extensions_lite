@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../../../flutter_quill_extensions_lite.dart';
+import '../../common/types.dart';
 import '../view/image/image.dart';
 
 /// This class is an implementation of the [EmbedBuilder] interface specific
@@ -15,14 +15,12 @@ class ImageEmbedBuilder extends EmbedBuilder {
   String get key => BlockEmbed.imageType;
 
   @override
-  Widget build(
-    BuildContext context,
-    QuillController controller,
-    Embed node,
-    bool readOnly,
-    bool inline,
-    TextStyle textStyle,
-  ) {
+  Widget build(BuildContext context,
+      QuillController controller,
+      Embed node,
+      bool readOnly,
+      bool inline,
+      TextStyle textStyle,) {
     return ImageWrapperView(
       isReadOnly: readOnly,
       controller: controller,

@@ -70,6 +70,7 @@ This method adds custom buttons to the Quill editor toolbar, such as the image a
 buttons({
   Tooltips? tooltips,
   Buttons? buttons,
+  VoidCallback? afterPressed,
   MediaPickSetting? mediaPickSettingSelector,
   DataOperationSetting? dataOperationSettingSelector,
   bool useBase64 = false,

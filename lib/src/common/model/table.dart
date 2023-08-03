@@ -1,6 +1,6 @@
-import 'package:flutter_quill/flutter_quill.dart';
+import 'model.dart';
 
-class TableModel {
+class TableModel extends BaseModel {
   final int rowNumber;
   final int columnsNumber;
   final List<List<String>> data;
@@ -11,7 +11,6 @@ class TableModel {
     required this.data,
   });
 
-  /// Creates an [TableModel] from a JSON map.
   factory TableModel.fromJson(Map<String, dynamic> json) {
     final List<List<String>> table = [];
 
@@ -26,7 +25,7 @@ class TableModel {
     );
   }
 
-  /// Converts the [TableModel] to a JSON map.
+  @override
   Map<String, dynamic> toJson() {
     return {
       'rowNumber': rowNumber,
@@ -34,7 +33,4 @@ class TableModel {
       'data': data,
     };
   }
-
-  /// Converts the [TableModel] to a [Attribute] object for formatting in the editor.
-  Attribute toAttribute() => DataAttribute(toJson());
 }

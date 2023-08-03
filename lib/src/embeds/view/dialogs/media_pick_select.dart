@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/translations.dart';
 
-import '../../../utils/utils.dart';
+import '../../../common/common.dart';
 
 /// select a MediaPickSelect: Link or Gallery
 class MediaPickSelect extends StatelessWidget {

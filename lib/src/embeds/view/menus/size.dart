@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/translations.dart';
 
-import '../../../../flutter_quill_extensions_lite.dart';
+import '../../../common/common.dart';
 import 'menu.dart';
 
 class MenuPopupSizeClassification extends StatelessWidget {

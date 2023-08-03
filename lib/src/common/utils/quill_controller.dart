@@ -77,8 +77,7 @@ class QuillControllerUtils {
   /// Updates the attributes of the currently selected in the [controller].
   void updateAttribute(
     Attribute<dynamic>? attribute,
-  ) =>
-      controller.document.format(offset, 1, attribute);
+  ) => controller.document.format(offset, 1, attribute);
 
   /// Retrieves the style string of the currently selected in the [controller].
   String getStyleString() {

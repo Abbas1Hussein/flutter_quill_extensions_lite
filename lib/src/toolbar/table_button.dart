@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
 import '../embeds/view/dialogs/table_size_select.dart';
-import '../utils/quill_controller_utils.dart';
+import '../common/common.dart';
 
 /// A button widget for adding table to the Quill editor toolbar.
 class TableToolbarButton extends StatelessWidget {
   const TableToolbarButton({
-    required this.icon,
     required this.controller,
     this.iconSize = kDefaultIconSize,
+    this.afterPressed,
     this.fillColor,
     this.iconTheme,
     this.dialogTheme,
@@ -17,9 +17,9 @@ class TableToolbarButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final IconData icon;
   final double iconSize;
   final Color? fillColor;
+  final VoidCallback? afterPressed;
   final QuillController controller;
   final QuillIconTheme? iconTheme;
   final QuillDialogTheme? dialogTheme;
@@ -33,21 +33,22 @@ class TableToolbarButton extends StatelessWidget {
         iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
 
     return QuillIconButton(
-      icon: Icon(icon, size: iconSize, color: iconColor),
+      icon: Icon(Icons.table_view_rounded, size: iconSize, color: iconColor),
       tooltip: tooltip ?? 'table',
       highlightElevation: 0,
       hoverElevation: 0,
       size: iconSize * 1.77,
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return TableSizeSelect(quillController: controller.utils);
-          },
-        );
-      },
+      onPressed: () => _showTableSizeSelectDialog(context),
+      afterPressed: afterPressed,
+    );
+  }
+
+  _showTableSizeSelectDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => TableSizeSelect(quillController: controller.utils),
     );
   }
 }

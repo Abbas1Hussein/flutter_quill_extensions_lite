@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
-import '../../../utils/utils.dart';
+import '../../../common/common.dart';
 import 'widgets/box_editor.dart';
 
-const kEdgeInsets8 = EdgeInsets.all(8.0);
+const _kEdgeInsets8 = EdgeInsets.all(8.0);
 
 class BoxView extends StatelessWidget {
   final bool readOnly;
@@ -24,11 +24,12 @@ class BoxView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     if (boxBuilder != null) {
-      return boxBuilder!(attributesUtils, value, () => showBoxWriteEditValueDialog(context), readOnly);
+      return boxBuilder!(attributesUtils, attributesUtils.data!,
+          () => showBoxWriteEditValueDialog(context), readOnly);
     } else {
       return Container(
-        margin: kEdgeInsets8,
-        padding: kEdgeInsets8,
+        margin: _kEdgeInsets8,
+        padding: _kEdgeInsets8,
         decoration: BoxDecoration(
           color: attributesUtils.backgroundColor ?? theme.primaryColor,
           border: Border.all(
@@ -67,16 +68,17 @@ class BoxView extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return BoxWriteEditValue(quillController: controller, value: value);
+        return BoxWriteEditValue(
+          quillController: controller,
+          value: attributesUtils.data,
+        );
       },
     ).then((value) => controller.moveCursorToPosition(controller.utils.offset));
   }
 
   Widget _buildTextWithAttributes() {
-    return Text(value, style: attributesUtils.style);
+    return Text(attributesUtils.data!, style: attributesUtils.style);
   }
 
-  String get value => attributes[Attribute.data.key]!.value;
-
-  AttributesUtils get attributesUtils => AttributesUtils(attributes);
+  AttributesUtils<String> get attributesUtils => AttributesUtils<String>(attributes);
 }

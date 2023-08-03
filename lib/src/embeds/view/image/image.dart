@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../../../utils/utils.dart';
+import '../../../common/common.dart';
 import '../dialogs/remove.dart';
 import '../menus/alignment.dart';
 import '../menus/box_fit.dart';
@@ -66,7 +66,7 @@ class _ImageWrapperViewState extends State<ImageWrapperView> {
     } else {
       return GestureDetector(
         onLongPress: () {
-          if (!widget.isReadOnly){
+          if (!widget.isReadOnly) {
             showImagePreview(context, _image);
           } else {
             _showSimpleDialog(context);

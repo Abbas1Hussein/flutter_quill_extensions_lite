@@ -8,25 +8,25 @@ import 'package:flutter_quill/translations.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../embeds/view/dialogs/media_pick_select.dart';
-import '../utils/utils.dart';
+import '../common/common.dart';
 
 /// A button widget for adding images to the Quill editor toolbar.
 class ImageToolbarButton extends StatelessWidget {
   const ImageToolbarButton({
-    required this.icon,
     required this.controller,
     this.iconSize = kDefaultIconSize,
-    this.fillColor,
     this.mediaPickSettingSelector,
+    this.afterPressed,
+    this.fillColor,
     this.iconTheme,
     this.dialogTheme,
     this.tooltip,
     Key? key,
   }) : super(key: key);
 
-  final IconData icon;
   final double iconSize;
   final Color? fillColor;
+  final VoidCallback? afterPressed;
   final QuillController controller;
   final MediaPickSetting? mediaPickSettingSelector;
   final QuillIconTheme? iconTheme;
@@ -41,7 +41,7 @@ class ImageToolbarButton extends StatelessWidget {
         iconTheme?.iconUnselectedFillColor ?? (fillColor ?? theme.canvasColor);
 
     return QuillIconButton(
-      icon: Icon(icon, size: iconSize, color: iconColor),
+      icon: Icon(Icons.image, size: iconSize, color: iconColor),
       tooltip: tooltip ?? 'image',
       highlightElevation: 0,
       hoverElevation: 0,
@@ -49,6 +49,7 @@ class ImageToolbarButton extends StatelessWidget {
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: () => _onPressedHandler(context),
+      afterPressed: afterPressed,
     );
   }
 
@@ -97,7 +98,7 @@ class ImageToolbarButton extends StatelessWidget {
             ImageModel(
               width: info.image.height,
               height: info.image.width,
-              alignment: AlignmentCLR.center,
+              alignment: AlignmentCRL.center,
               boxFit: BoxFit.scaleDown,
             ).toAttribute(),
           );

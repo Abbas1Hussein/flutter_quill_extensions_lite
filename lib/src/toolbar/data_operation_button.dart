@@ -5,14 +5,15 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 
+import '../common/common.dart';
 import '../embeds/view/dialogs/data_operation_select.dart';
-import '../utils/utils.dart';
 
 /// A toolbar button widget that handles data operations such as export and restore.
 class DataOperationToolbarButton extends StatelessWidget {
   const DataOperationToolbarButton({
     required this.controller,
     required this.useBase64,
+    this.afterPressed,
     this.iconSize = kDefaultIconSize,
     this.fillColor,
     this.dataOperationSetting,
@@ -23,13 +24,14 @@ class DataOperationToolbarButton extends StatelessWidget {
   }) : super(key: key);
 
   final bool useBase64;
+  final String? tooltip;
   final double iconSize;
   final Color? fillColor;
-  final QuillController controller;
-  final DataOperationSetting? dataOperationSetting;
-  final QuillIconTheme? iconTheme;
+  final VoidCallback? afterPressed;
   final QuillDialogTheme? dialogTheme;
-  final String? tooltip;
+  final QuillController controller;
+  final QuillIconTheme? iconTheme;
+  final DataOperationSetting? dataOperationSetting;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class DataOperationToolbarButton extends StatelessWidget {
       fillColor: iconFillColor,
       borderRadius: iconTheme?.borderRadius ?? 2,
       onPressed: () => _onPressedHandler(context),
+      afterPressed: afterPressed,
     );
   }
 

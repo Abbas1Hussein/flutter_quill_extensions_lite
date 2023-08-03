@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
-import 'package:flutter_quill_extensions_lite/src/embeds/view/table/table.dart';
 
-import '../../utils/types.dart';
+import '../../common/types.dart';
 import '../custom/table.dart';
+import '../view/table/table.dart';
 
 /// This class is an implementation of the [EmbedBuilder] interface specific
 /// to rendering Table in the Quill editor.
