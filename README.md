@@ -88,40 +88,38 @@ buttons({
 - `useBase64`: specifies whether to encode the data in base64 format when exporting. Set it to `true` to enable base64 encoding and if it is `false`, the data will be exported as a List of JSON.
 
 ### Exported Components
+The package also exports the following components for easy access and use with `flutter_quill`:
 
-The `flutter_quill_extensions_lite` package also exports the following components for easy access and use with `flutter_quill`:
-
-1. - `QuillControllerUtils`: A utility class extending `QuillController` to provide additional methods for text manipulation.
-
+-`QuillControllerUtils`: A utility class provide additional methods for text manipulation.
 ##### Usage:
 ```dart
 final QuillController controller = QuillController();
 controller.utils;
 ```
 
-2. - `AttributesUtils`: A utility class providing getter methods to access various attributes of the editor content. This class is helpful for retrieving information about the text attributes such as color, background color, bold, italic, underline, strike, header, and sizes.
-
+- `AttributesUtils`: A utility class providing getter methods to access various attributes of the editor content. This class is helpful for retrieving information about the text attributes such as color, background color, bold, italic, underline, strike, header, and sizes.
 ##### Usage:
 ```dart
-final AttributesUtils attributesUtils = AttributesUtils(attributes);
+final AttributesUtils attributes = AttributesUtils(attributes);
+
+final data = attributes.data // Returns the custom data associated with the editor content.
+final color = attributes.color // Returns the text color as a `Color` object.
+final isBold = attributes.isBold // Returns whether the text is in bold.
+final isItalic = attributes.isItalic // Returns whether the text is in italic format.
+final isStrike = attributes.isStrike // Returns whether the text has a strike-through style.
+final isUnderline = attributes.isUnderline // Returns whether the text is underlined.
+final backgroundColor = attributes.backgroundColor // Returns the background color of the text as a `Color` object.
+final decoration = attributes.decoration // Returns a `TextDecoration` object representing the text decoration (underline or strikethrough).
+final fontFamily = attributes.fontFamily // Returns the font family used for the text.
+final fontSize = attributes.fontSize // Returns the size of the text in `double`.
+final style = attributes.style // Returns a `TextStyle` object representing the current text style based on the attributes (bold, italic, font size, etc.).
+final header = attributes.header // Returns the header level (`Header` enum) for the text, such as `small`, `large`, and `huge`.
+final sizes = attributes.sizes // Returns the text size (`Sizes` enum) for the text, such as `h1`, `h2`, and `h3`.
+
 ```
-- `data`: Returns the custom data associated with the editor content.
-- `color`: Returns the text color as a `Color` object.
-- `isBold`: Returns whether the text is in bold format as a `bool`.
-- `isItalic`: Returns whether the text is in italic format as a `bool`.
-- `isStrike`: Returns whether the text has a strike-through style as a `bool`.
-- `isUnderline`: Returns whether the text is underlined as a `bool`.
-- `backgroundColor`: Returns the background color of the text as a `Color` object.
-- `decoration`: Returns a `TextDecoration` object representing the text decoration (underline or strikethrough).
-- `fontFamily`: Returns the font family used for the text.
-- `fontSize`: Returns the size of the text in `double`.
-- `style`: Returns a `TextStyle` object representing the current text style based on the attributes (bold, italic, font size, etc.).
-- `header`: Returns the header level (`Header` enum) for the text, such as `small`, `large`, and `huge`.
-- `sizes`: Returns the text size (`Sizes` enum) for the text, such as `h1`, `h2`, and `h3`.
 
 
-3. - `ColorUtils`: A utility class providing static methods for converting color codes to `Color` objects and vice versa.
-
+- `ColorUtils`: A utility class providing static methods for converting color codes to `Color` objects and vice versa.
 ##### Usage:
 ```dart
 static Color hexToColor(String? hexString);
