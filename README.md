@@ -91,7 +91,7 @@ buttons({
 
 The `flutter_quill_extensions_lite` package also exports the following components for easy access and use with `flutter_quill`:
 
-- `QuillControllerUtils`: A utility class extending `QuillController` to provide additional methods for text manipulation.
+1. - `QuillControllerUtils`: A utility class extending `QuillController` to provide additional methods for text manipulation.
 
 ##### Usage:
 ```dart
@@ -99,24 +99,28 @@ final QuillController controller = QuillController();
 controller.utils;
 ```
 
-- `AttributesUtils`: A utility class providing getter methods to access various attributes of the editor content. This class is helpful for retrieving information about the text attributes such as color, background color, bold, italic, underline, strike, header, and sizes.
+2. - `AttributesUtils`: A utility class providing getter methods to access various attributes of the editor content. This class is helpful for retrieving information about the text attributes such as color, background color, bold, italic, underline, strike, header, and sizes.
 
 ##### Usage:
 ```dart
 final AttributesUtils attributesUtils = AttributesUtils(attributes);
-
-// Accessing attributes
-Color? backgroundColor = attributesUtils.backgroundColor; // Color(0xFFFFFF00)
-Color? textColor = attributesUtils.color; // Color(0xFF0000FF)
-bool isTextBold = attributesUtils.isBold; // true
-bool isTextItalic = attributesUtils.isItalic; // false
-bool isTextStrike = attributesUtils.isStrike; // false
-bool isTextUnderline = attributesUtils.isUnderline; // true
-Header? header = attributesUtils.header; // Header.h1
-Sizes? size = attributesUtils.sizes; // Sizes.large
 ```
+- `data`: Returns the custom data associated with the editor content.
+- `color`: Returns the text color as a `Color` object.
+- `isBold`: Returns whether the text is in bold format as a `bool`.
+- `isItalic`: Returns whether the text is in italic format as a `bool`.
+- `isStrike`: Returns whether the text has a strike-through style as a `bool`.
+- `isUnderline`: Returns whether the text is underlined as a `bool`.
+- `backgroundColor`: Returns the background color of the text as a `Color` object.
+- `decoration`: Returns a `TextDecoration` object representing the text decoration (underline or strikethrough).
+- `fontFamily`: Returns the font family used for the text.
+- `fontSize`: Returns the size of the text in `double`.
+- `style`: Returns a `TextStyle` object representing the current text style based on the attributes (bold, italic, font size, etc.).
+- `header`: Returns the header level (`Header` enum) for the text, such as `small`, `large`, and `huge`.
+- `sizes`: Returns the text size (`Sizes` enum) for the text, such as `h1`, `h2`, and `h3`.
 
-- `ColorUtils`: A utility class providing static methods for converting color codes to `Color` objects and vice versa.
+
+3. - `ColorUtils`: A utility class providing static methods for converting color codes to `Color` objects and vice versa.
 
 ##### Usage:
 ```dart
@@ -124,3 +128,5 @@ static Color hexToColor(String? hexString);
 
 static String colorToHex(Color color);
 ```
+
+
