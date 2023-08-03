@@ -114,8 +114,7 @@ class TableAddEditDataState extends State<TableAddEditData> {
 
     for (var i = 0; i < _table.length; i++) {
       for (var j = 0; j < _table[i].length; j++) {
-        tableData[i][j] =
-            _table[i][j].text; // Updates the table data with the new changes
+        tableData[i][j] = _table[i][j].text; // Updates the table data with the new changes
       }
     }
 
@@ -138,17 +137,15 @@ class TableAddEditDataState extends State<TableAddEditData> {
           ).toAttribute(),
         );
       }
-    } catch (error) {
-      if (error.toString().contains('offset')) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('you must selected position to insert table'),
-          ),
-        );
-      } else {
-        throw Exception(error.toString());
-      }
+    } catch (_) {
+      _showSnackBar('Please select an item before doing this.');
     }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   /// Loads the table data from attributes.

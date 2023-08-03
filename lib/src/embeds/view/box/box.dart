@@ -68,17 +68,18 @@ class BoxView extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) {
-        return BoxWriteEditValue(
-          quillController: controller,
-          value: attributesUtils.data,
-        );
+        return BoxWriteEditValue(quillController: controller, value: attributesUtils.data);
       },
     ).then((value) => controller.moveCursorToPosition(controller.utils.offset));
   }
 
   Widget _buildTextWithAttributes() {
-    return Text(attributesUtils.data!, style: attributesUtils.style);
+    return Text(attributesUtils.data ?? '', style: attributesUtils.style);
   }
 
   AttributesUtils<String> get attributesUtils => AttributesUtils<String>(attributes);
 }
+
+
+
+

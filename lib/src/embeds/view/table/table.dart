@@ -55,11 +55,13 @@ class TableView extends StatelessWidget {
   void _showTableAddEditValueDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) =>
-          TableAddEditData(tableModel: tableModel, controller: controller),
-    ).then((value) {
-      controller.moveCursorToPosition(controller.utils.offset);
-    });
+      builder: (context) => TableAddEditData(tableModel: tableModel, controller: controller),
+    ).then(
+      (value) => controller.updateSelection(
+        controller.selection,
+        ChangeSource.REMOTE,
+      ),
+    );
   }
 
   TableModel get tableModel => TableModel.fromJson(attributesUtils.data!);

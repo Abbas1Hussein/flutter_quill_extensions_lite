@@ -81,7 +81,6 @@ class _ImageWrapperViewState extends State<ImageWrapperView> {
   }
 
   void _showSimpleDialog(BuildContext context) {
-    widget.controller.moveCursorToPosition(widget.controller.utils.offset);
     showDialog(
       context: context,
       builder: (context) => SimpleDialog(

@@ -85,9 +85,23 @@ class _BaseMenuState extends State<BaseMenu> {
   }
 
   void _onTapHandler<T>(T element) {
-    widget.quillControllerUtils.moveCursorToOffset();
     final style = widget.quillControllerUtils.controller.getSelectionStyle();
     final data = style.attributes[Attribute.data.key]?.value;
-    widget.onSelectValue((data, element));
+
+    if (data == null) {
+      _showSnackBar('Please select an item before doing this.');
+    } else {
+      widget.onSelectValue((data, element));
+      widget.quillControllerUtils.controller.updateSelection(
+        widget.quillControllerUtils.controller.selection,
+        ChangeSource.REMOTE,
+      );
+    }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 }

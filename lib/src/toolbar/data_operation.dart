@@ -143,6 +143,11 @@ class DataOperationToolbarButton extends StatelessWidget {
           controller.utils.insert(jsonDecode(data));
         }
       }
+    } on FormatException catch (_) {
+      _showSnackBar(
+        'Error restoring data: Format application failed, check if a supported format is being used',
+        context,
+      );
     } catch (e) {
       _showSnackBar('Error restoring data: $e', context);
       throw Exception('Error restoring data: $e');

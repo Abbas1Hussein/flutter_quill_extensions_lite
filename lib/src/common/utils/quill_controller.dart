@@ -44,8 +44,7 @@ class QuillControllerUtils {
   /// Retrieves JSON data from the clipboard and returns it as a [List<dynamic>].
   /// Returns `null` if the clipboard data is not valid JSON or if no data is available.
   Future<List<dynamic>?> past() async {
-    ClipboardData? clipboardData =
-        await Clipboard.getData(Clipboard.kTextPlain);
+    ClipboardData? clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
     if (clipboardData?.text != null) {
       try {
         List<dynamic> jsonData = jsonDecode(clipboardData!.text!);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// Enumeration representing the alignment options for an widget.
+/// representing the alignment options for an item.
 enum AlignmentCRL { center, right, left }
 
-/// Extension on [AlignmentCRL] to provide additional functionality for working with widget alignments.
+/// Extension on [AlignmentCRL] to provide additional functionality for working with item alignments.
 extension AlignmentImageEx on AlignmentCRL {
   /// Returns the name of the alignment as a string.
   String get name {
