@@ -11,7 +11,11 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_quill: ^7.2.19
+  flutter_quill:
+    git:
+      url: https://github.com/Abbas1Hussein/flutter-quill.git
+      ref: my-custom-changes
+
   file_picker: ^5.3.3
 
 
