@@ -60,8 +60,7 @@ class TableAddEditDataState extends State<TableAddEditData> {
       ),
       actions: [
         TextButton(onPressed: onTap, child: const Text('Add')),
-        TextButton(
-            onPressed: Navigator.of(context).pop, child: const Text('Cancel')),
+        TextButton(onPressed: Navigator.of(context).pop, child: const Text('Cancel')),
       ],
     );
   }
@@ -73,33 +72,30 @@ class TableAddEditDataState extends State<TableAddEditData> {
 
   /// Adds a new row to the table.
   void _addRow() {
-    setState(() {
-      _table.add(
-        List.generate(
-          tableModel.rowNumber,
-          (index) => TextEditingController(),
-        ),
-      );
+    _table.add(
+      List.generate(tableModel.rowNumber, (index) => TextEditingController()),
+    );
+    if (tableModel.data.isNotEmpty){
       while (tableModel.data.length < _table.length) {
-        tableModel.data.add(
-          List.generate(tableModel.rowNumber, (index) => ''),
-        );
+        tableModel.data.add(List.generate(tableModel.rowNumber, (index) => ''));
       }
-      tableLockStatus.add(false);
-    });
+    }
+
+    tableLockStatus.add(false);
+    setState(() {});
   }
 
   /// Removes a row from the table.
   void _removeRow(int index) {
-    setState(() {
-      _table.removeAt(index);
-      tableLockStatus.removeAt(index);
-    });
+    _table.removeAt(index);
+    tableLockStatus.removeAt(index);
+    setState(() {});
   }
 
   /// Toggles the lock status of a row.
   void _toggleLockRow(int index) {
-    setState(() => tableLockStatus[index] = !tableLockStatus[index]);
+    tableLockStatus[index] = !tableLockStatus[index];
+    setState(() {});
   }
 
   /// Saves the changes made to the table data.

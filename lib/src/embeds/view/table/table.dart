@@ -57,10 +57,7 @@ class TableView extends StatelessWidget {
       context: context,
       builder: (context) => TableAddEditData(tableModel: tableModel, controller: controller),
     ).then(
-      (value) => controller.updateSelection(
-        controller.selection,
-        ChangeSource.REMOTE,
-      ),
+      (value) => controller.updateSelection(controller.selection, ChangeSource.REMOTE),
     );
   }
 

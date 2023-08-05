@@ -31,6 +31,7 @@ class AttributesUtils<T> {
   /// Returns a TextStyle object representing the current text style based on the attributes.
   TextStyle get style {
     return TextStyle(
+      color: color,
       fontWeight: isBold ? FontWeight.bold : null,
       fontStyle: isItalic ? FontStyle.italic : null,
       fontFamily: fontFamily,

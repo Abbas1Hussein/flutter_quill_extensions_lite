@@ -36,7 +36,7 @@ class QuillControllerUtils {
   }
 
   /// move Cursor To select Position.
-  void moveCursorToOffset() => controller.moveCursorToPosition(offset);
+  void moveCursorToPosition() => controller.moveCursorToPosition(offset);
 
   /// Copies the JSON data of the [controller]'s document to the clipboard.
   void copy() => Clipboard.setData(ClipboardData(text: data));

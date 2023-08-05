@@ -69,10 +69,12 @@ class _TableSizeSelectState extends State<TableSizeSelect> {
               showDialog(
                 barrierDismissible: false,
                 context: context,
-                builder: (context) => TableAddEditData(
-                  controller: widget.quillController.controller,
-                  tableModel: tableSizesModel!,
-                ),
+                builder: (context) {
+                  return TableAddEditData(
+                    controller: widget.quillController.controller,
+                    tableModel: tableSizesModel!,
+                  );
+                },
               );
             }
           },
